@@ -1,0 +1,35 @@
+{
+	"name": "idmkr/adwords",
+	"type": "platform-extension",
+	"description": "AdWords interactions abstraction",
+	"authors": [
+		{
+			"name": "IDMKR",
+			"email": "team@idmkr.io"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://packages.cartalyst.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5.9",
+		"cartalyst/composer-installers": "1.2.*",
+		"illuminate/support": "~5.1",
+		"platform/foundation": "~2.0|~3.0|~4.0",
+		"nikolajlovenhardt/laravel-google-ads": "^0.0.5@beta"
+	},
+	"autoload": {
+		"classmap": [
+			"database/migrations",
+			"database/seeds"
+		],
+		"psr-4": {
+			"Idmkr\\Adwords\\": "src/"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}

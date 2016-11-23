@@ -1,0 +1,101 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "8b9dd3d29c6517365c8c13622e05fe70",
+    "content-hash": "f5d7575b5c77074f7c48dcde7ece7a70",
+    "packages": [
+        {
+            "name": "cartalyst/composer-installers",
+            "version": "v1.2.3",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:cartalyst/composer-installers.git",
+                "reference": "a148ec742fe16b2e6aea4d36ab8e22c60a8a402c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cartalyst/composer-installers/zipball/a148ec742fe16b2e6aea4d36ab8e22c60a8a402c",
+                "reference": "a148ec742fe16b2e6aea4d36ab8e22c60a8a402c",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.7.2"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "component": "package",
+                "class": [
+                    "Cartalyst\\ComposerInstallers\\ExtensionInstallerPlugin",
+                    "Cartalyst\\ComposerInstallers\\InstallerPlugin",
+                    "Cartalyst\\ComposerInstallers\\ThemeInstallerPlugin"
+                ],
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cartalyst\\ComposerInstallers\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Cartalyst LLC",
+                    "email": "help@cartalyst.com"
+                },
+                {
+                    "name": "Christopher Pitt",
+                    "email": "cgpitt@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Ben Corlett",
+                    "email": "ben.corlett@cartalyst.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Bruno Gaspar",
+                    "email": "bruno.gaspar@cartalyst.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Dan Syme",
+                    "email": "dan.syme@cartalyst.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Composer installers plugin for various Cartalyst packages.",
+            "keywords": [
+                "bootstrap",
+                "ecommerce",
+                "laravel",
+                "platform"
+            ],
+            "support": {
+                "source": "https://github.com/cartalyst/composer-installers/tree/v1.2.3",
+                "issues": "https://github.com/cartalyst/composer-installers/issues"
+            },
+            "time": "2016-02-05 19:40:20"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.5.9"
+    },
+    "platform-dev": []
+}
