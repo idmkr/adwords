@@ -8,3 +8,4 @@ src/Models/User.php
 src/Providers
 !src/Providers/AdwordsServiceProvider.php
 src/Controllers
+composer.lock
