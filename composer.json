@@ -1,25 +1,22 @@
 {
 	"name": "idmkr/adwords",
 	"type": "platform-extension",
-	"description": "AdWords interactions abstraction",
+	"description": "AdWords PHP API abstraction layer",
 	"authors": [
 		{
 			"name": "IDMKR",
 			"email": "team@idmkr.io"
 		}
 	],
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://packages.cartalyst.com"
-		}
-	],
 	"require": {
-		"php": ">=5.5.9",
-		"cartalyst/composer-installers": "1.2.*",
-		"illuminate/support": "~5.1",
-		"platform/foundation": "~2.0|~3.0|~4.0",
+		"php": ">=7.0",
 		"nikolajlovenhardt/laravel-google-ads": "^0.0.5@beta"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.0",
+		"codeclimate/php-test-reporter": "dev-master",
+		"phpmd/phpmd" : "1.4.*",
+		"mockery/mockery": "~0.9.4"
 	},
 	"autoload": {
 		"classmap": [
@@ -28,6 +25,11 @@
 		],
 		"psr-4": {
 			"Idmkr\\Adwords\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"LaravelGoogleAdsTests\\": "tests/"
 		}
 	},
 	"minimum-stability": "dev",

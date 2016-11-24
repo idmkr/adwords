@@ -4,6 +4,7 @@ use AdGroup;
 use BiddingStrategyConfiguration;
 use CpcBid;
 use Money;
+use TempIdGenerator;
 
 /**
  * Class AdGroupCollection
@@ -34,6 +35,10 @@ class AdGroupCollection extends AdwordsCollection
         $adGroup = new AdGroup();
         
         $adGroup->name = $data["name"];
+
+        if(!isset($data["id"])) {
+            $adGroup->id = TempIdGenerator::Generate();
+        }
 
         $biddingStrategyConfiguration = new BiddingStrategyConfiguration();
         $bid = new CpcBid();

@@ -5,6 +5,7 @@ use AdGroupOperation;
 use AdGroupServiceError;
 use ApiError;
 use BiddingStrategyConfiguration;
+use Campaign;
 use Cartalyst\Support\Traits;
 use CpcBid;
 use Idmkr\Adwords\Collections\AdGroupCollection;
@@ -95,41 +96,53 @@ class AdgroupRepository extends AdwordsRepository implements AdgroupRepositoryIn
      * 
 *@return array an array of AdGroupOperation
      */
-    public function buildCampaignOperations(
+    public function buildCampaignsOperations(
         CampaignCollection $campaigns, 
         AdGroupCollection $adGroups, 
         $operator = 'ADD'
     ) {
         $operations = array();
 
+        foreach($campaigns as $campaign) {
+            $operations = array_merge($operations,
+                $this->buildCampaignOperations($campaign, $adGroups, $operator)
+            );
+        }
+
+        return $operations;
+    }
+
+
+    /**
+     * @param Campaign $campaign
+     * @param AdGroupCollection $adGroups
+     * @param $operator
+     *
+     * @return array
+     */
+    public function buildCampaignOperations(\Campaign $campaign, AdGroupCollection $adGroups, $operator = 'ADD')
+    {
         $this->requireService("AdGroupService");
         $this->requireService("AdGroupAdService");
         $this->requireService("Util/TempIdGenerator", false);
 
-        foreach($campaigns as $campaign) {
-            /** @var AdGroup $adGroup */
-            foreach($adGroups as $adGroup) {
-                $adGroup->campaignId = $campaign->id;
+        $operations = [];
 
-                if($operator == 'ADD') {
-                    if($adGroup->id) {
-                        throw new \InvalidArgumentException("Trying to build an ADD AdGroup operation, but id is already defined");
-                    }
-                    $adGroup->id = TempIdGenerator::Generate();
-                }
+        /** @var AdGroup $adGroup */
+        foreach($adGroups as $adGroup) {
+            $adGroup->campaignId = $campaign->id;
 
-                $operation = new AdGroupOperation();
-                if($operator == "REMOVE") {
-                    $operation->operator = 'SET';
-                    $adGroup->status = "REMOVED";
-                }
-                else {
-                    $operation->operator = $operator;
-                }
-                $operation->operand = $adGroup;
-
-                $operations[] = $operation;
+            $operation = new AdGroupOperation();
+            if($operator == "REMOVE") {
+                $operation->operator = 'SET';
+                $adGroup->status = "REMOVED";
             }
+            else {
+                $operation->operator = $operator;
+            }
+            $operation->operand = $adGroup;
+
+            $operations[] = $operation;
         }
 
         return $operations;

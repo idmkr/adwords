@@ -1,6 +1,6 @@
 <?php namespace Idmkr\Adwords\Validator\Ad;
 
-use Cartalyst\Support\Validator;
+use Illuminate\Validation\Validator;
 
 class AdValidator extends Validator implements AdValidatorInterface {
 
