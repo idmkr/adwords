@@ -1,11 +1,12 @@
 <?php namespace Idmkr\Adwords\Collections;
 
+use Idmkr\Adwords\Handlers\DataHandler;
 use Illuminate\Support\Collection;
 use Operation;
 
 abstract class AdwordsCollection extends Collection
 {
-    protected $microAmountFactor = 1000000;
+    protected $dataHandler;
 
     /**
      * Create a new collection.
@@ -46,19 +47,7 @@ abstract class AdwordsCollection extends Collection
 
     protected function parseItem($item)
     {
-        if(method_exists($this, 'parseArrayItem') && is_array($item)) {
-            return $this->parseArrayItem($item);
-        }
-        else if(method_exists($this, 'parseStringItem') && is_string($item)) {
-            return $this->parseStringItem($item);
-        }
-        else if(method_exists($this, 'parseIntItem') && is_int($item)) {
-            return $this->parseIntItem($item);
-        }
-        else if($item instanceof \Operation) {
-            return $this->parseOperationItem($item);
-        }
-        else return $item;
+        return $this->getDataHandler()->prepare($item);
     }
 
     public function __set($property, $value)
@@ -66,15 +55,6 @@ abstract class AdwordsCollection extends Collection
         if ($property == 'items') {
             $this->items = $this->parseItems($value);
         }
-    }
-    /**
-     * @param Operation $operation
-     *
-     * @return array
-     */
-    protected function parseOperationItem(Operation $operation)
-    {
-        return $operation->operand;
     }
 
 
@@ -192,6 +172,31 @@ abstract class AdwordsCollection extends Collection
     }
 
     /**
+     * Run a map over each of the items.
+     *
+     * @param  callable  $callback
+     * @return static
+     */
+    public function map(callable $callback)
+    {
+        $keys = array_keys($this->items);
+
+        $items = array_map($callback, $this->items, $keys);
+
+        return $this->clone(array_combine($keys, $items));
+    }
+
+    public function keys()
+    {
+        return $this->clone(array_keys($this->items));
+    }
+
+    public function flip()
+    {
+        return $this->clone(array_flip($this->items));
+    }
+
+    /**
      * Pluck an array of values from an array.
      *
      * @param  string|array  $value
@@ -236,5 +241,13 @@ abstract class AdwordsCollection extends Collection
         $key = is_null($key) || is_array($key) ? $key : explode('.', $key);
 
         return [$value, $key];
+    }
+
+    protected function getDataHandler() : DataHandler
+    {
+        if(!$this->dataHandler) {
+            throw new \Exception(class_basename($this).' must have a data handler.');
+        }
+        return new $this->dataHandler;
     }
 }

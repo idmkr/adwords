@@ -1,93 +1,69 @@
 <?php namespace Idmkr\Adwords\Repositories\Ad;
 
+use AdGroup;
 use AdGroupAd;
 use AdGroupAdOperation;
 use AdGroupAdService;
 use AdGroupOperation;
 use Cartalyst\Support\Traits;
 use ExpandedTextAd;
-use Idmkr\Adwords\Collections\AdCollection;
-use Idmkr\Adwords\Collections\AdGroupCollection;
+use Idmkr\Adwords\Handlers\Ad\ExpandedTextAdDataHandler;
 use Idmkr\Adwords\Repositories\AdwordsRepository;
-use Idmkr\Template\Repositories\Templategroupeannonces\TemplategroupeannoncesRepository;
 use Illuminate\Container\Container;
 use LaravelGoogleAds\AdWords\AdWordsUser;
-use Symfony\Component\Finder\Finder;
-use Traversable;
 
-class AdRepository extends AdwordsRepository implements AdRepositoryInterface {
+class AdRepository extends AdwordsRepository
+{
+    public function __construct(Container $app)
+    {
+        parent::__construct($app);
 
-	use Traits\ContainerTrait, Traits\EventTrait, Traits\ValidatorTrait;
-
-	/**
-	 * The Data handler.
-	 *
-	 * @var \Idmkr\Adwords\Handlers\Ad\AdDataHandlerInterface
-	 */
-	protected $data;
-
-
-	/**
-	 * Constructor.
-	 *
-	 * @param  \Illuminate\Container\Container  $app
-	 * @return void
-	 */
-	public function __construct(Container $app)
-	{
-		parent::__construct();
-        
-		$this->setContainer($app);
-
-		$this->setDispatcher($app['events']);
-
-		$this->data = $app['idmkr.adwords.ad.handler.data'];
-
-		$this->setValidator($app['idmkr.adwords.ad.validator']);
-	}
-
+        $this->requireService("AdGroupAdService");
+    }
 
 	/**
 	 * Creates text ads that use ad customizations for the specified ad group IDs.
 	 *
-	 * @param AdGroupCollection $adGroups the IDs of the ad groups to target with the FeedItem
-	 * @param AdCollection $adsByAdGroupName  the data
-     *
-     * @return AdGroupAd[]
+	 * @param AdGroup $adGroup the IDs of the ad groups to target with the FeedItem
+	 * @param mixed     $ad
+	 * @param mixed     $adGroupAd
+	 *
+	 * @return AdGroupAdOperation
+	 *
 	 */
-	public function buildAdGroupOperations(AdGroupCollection $adGroups, $adsByAdGroupName)
+	public function buildAdGroupOperation(AdGroup $adGroup, $adData, $adGroupAdData = [])
     {
-        $this->requireService("AdGroupAdService");
-        $operations = array();
+        $expandedTextAd = $this->getDataHandler()->prepare($adData);
+        
+        $adGroupAd = new AdGroupAd();
+        $adGroupAd->adGroupId = $adGroup->id;
+        $adGroupAd->ad = $expandedTextAd;
 
-        try {
-
-            foreach ($adGroups as $adGroup) {
-                $ads = $adsByAdGroupName[$adGroup->name];
-
-                foreach($ads as $expandedTextAd) {
-                    $adGroupAd = new AdGroupAd();
-                    $adGroupAd->adGroupId = $adGroup->id;
-
-                    $adGroupAd->ad = $expandedTextAd;
-
-                    $operation = new AdGroupAdOperation();
-                    $operation->operator = 'ADD';
-                    $operation->operand = $adGroupAd;
-
-                    $operations[] = $operation;
-
-                }
-            }
-
-        }
-        catch (\Exception $e) {
-            dd($e);
+        if(isset($adGroupAdData["enabled"])) {
+            $adGroupAd->status = $adGroupAdData["enabled"] == 1 ? "ENABLED" : "PAUSED";
         }
 
-		return $operations;
+		return $this->fillOperation(new AdGroupAdOperation, $adGroupAd);
 	}
 
+    /**
+     * @return string
+     */
+    protected function getEventNamespace() : string
+    {
+        return 'idmkr.adwords.ad';
+    }
 
+    /**
+     * @return string
+     */
+    protected function getEntityClassName() : string
+    {
+        return 'AdGroupAd';
+    }
 
+    protected function getDataHandler() : ExpandedTextAdDataHandler
+    {
+        return app('idmkr.adwords.expandedtextad.handler.data');
+    }
 }

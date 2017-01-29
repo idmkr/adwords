@@ -20,7 +20,7 @@ class BatchServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		// Register the repository
-		$this->bindIf('idmkr.adwords.batch', 'Idmkr\Adwords\Repositories\Batch\BatchRepository');
+		$this->bindIf('idmkr.adwords.batch', 'Idmkr\Adwords\Repositories\Batch\BatchJobRepository');
 
 		// Register the data handler
 		$this->bindIf('idmkr.adwords.batch.handler.data', 'Idmkr\Adwords\Handlers\Batch\BatchDataHandler');

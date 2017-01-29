@@ -3,6 +3,9 @@
 use FeedItem;
 use FeedItemAdGroupTargeting;
 use FeedItemAttributeValue;
+use Idmkr\Adwords\Handlers\DataHandler;
+use Idmkr\Adwords\Handlers\Feed\FeedItemDataHandler;
+use Idmkr\Adwords\Traits\RequireAdWordsServiceTrait;
 
 
 /**
@@ -27,32 +30,7 @@ class FeedItemCollection extends AdwordsCollection
     public function __construct(\AdCustomizerFeed $feed, array $feedItems = [])
     {
         parent::__construct($feedItems);
-
         $this->feed = $feed;
-    }
-
-    /**
-     * build a FeedItem
-     *
-     * @param array $data the attributes
-     */
-    protected function parseArrayItem(array $data) : FeedItem
-    {
-        $attributeValues = collect($data)->values()->map(function ($attr, $i){
-            // Create the FeedItemAttributeValues for our text values.
-            $attributeValue = new FeedItemAttributeValue();
-            $attributeValue->feedAttributeId = $this->feed->feedAttributes[$i]->id;
-            $attributeValue->stringValue = $attr;
-
-            return $attributeValue;
-        })->toArray();
-
-        // Create the feed item and operation.
-        $item = new FeedItem();
-        $item->feedId = $this->feed->feedId;
-        $item->attributeValues = $attributeValues;
-
-        return $item;
     }
 
     public function keyBy($key)
@@ -71,8 +49,17 @@ class FeedItemCollection extends AdwordsCollection
         return $keyed;
     }
 
-    public function getItemAttributes(\FeedItem $feedItem) : array
+    /**
+     * @param mixed $feedItem
+     *
+     * @return array
+     */
+    public function getItemAttributes($feedItem) : array
     {
+        if(is_int($feedItem)) {
+            $feedItem = $this->get($feedItem);
+        }
+
         $attrNames = collect($this->feed->feedAttributes)->keyBy(function (\AdCustomizerFeedAttribute $feedAttribute) {
             return $feedAttribute->id;
         })->map(function (\AdCustomizerFeedAttribute $feedAttribute) {
@@ -90,31 +77,6 @@ class FeedItemCollection extends AdwordsCollection
         }
 
         return $attrs;
-    }
-
-    /**
-     * Run a map over each of the items.
-     *
-     * @param  callable  $callback
-     * @return static
-     */
-    public function map(callable $callback)
-    {
-        $keys = array_keys($this->items);
-
-        $items = array_map($callback, $this->items, $keys);
-
-        return $this->clone(array_combine($keys, $items));
-    }
-
-    public function keys()
-    {
-        return $this->clone(array_keys($this->items));
-    }
-
-    public function flip()
-    {
-        return $this->clone(array_flip($this->items));
     }
 
     /**
@@ -140,5 +102,13 @@ class FeedItemCollection extends AdwordsCollection
         }
 
         return $default;
+    }
+
+    /**
+     * @return FeedItemDataHandler
+     */
+    protected function getDataHandler() : DataHandler
+    {
+        return app("idmkr.adwords.feeditem.handler.data", [$this->feed]);
     }
 }

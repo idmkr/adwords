@@ -1,13 +1,13 @@
 <?php namespace Idmkr\Adwords\Handlers\User;
 
-class UserDataHandler implements UserDataHandlerInterface {
+use Idmkr\Adwords\Handlers\DataHandler;
+use LaravelGoogleAds\AdWords\AdWordsUser;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function prepare(array $data)
+class UserDataHandler extends DataHandler implements UserDataHandlerInterface
+{
+	public function prepare($data) : AdWordsUser
 	{
-		return $data;
+		return new AdWordsUser();
 	}
 
 }

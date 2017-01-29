@@ -1,13 +1,9 @@
 <?php namespace Idmkr\Adwords\Handlers\Batch;
 
-interface BatchDataHandlerInterface {
+use BatchJob;
 
-	/**
-	 * Prepares the given data for being stored.
-	 *
-	 * @param  array  $data
-	 * @return mixed
-	 */
-	public function prepare(array $data);
+interface BatchDataHandlerInterface
+{
+    public function prepare($data) : BatchJob;
 
 }

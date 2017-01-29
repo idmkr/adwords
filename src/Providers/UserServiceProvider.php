@@ -9,10 +9,6 @@ class UserServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		// Register the attributes namespace
-		$this->app['platform.attributes.manager']->registerNamespace(
-			$this->app['Idmkr\Adwords\Models\User']
-		);
 
 		// Subscribe the registered event handler
 		$this->app['events']->subscribe('idmkr.adwords.user.handler.event');

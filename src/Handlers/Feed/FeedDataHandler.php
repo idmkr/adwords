@@ -1,13 +1,13 @@
 <?php namespace Idmkr\Adwords\Handlers\Feed;
 
-class FeedDataHandler implements FeedDataHandlerInterface {
+use AdCustomizerFeed;
+use Feed;
+use Idmkr\Adwords\Handlers\DataHandler;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function prepare(array $data)
-	{
-		return $data;
-	}
-
+class FeedDataHandler extends DataHandler implements FeedDataHandlerInterface
+{
+   public function prepare($data)
+   {
+	   return $data;
+   }
 }

@@ -3,8 +3,8 @@
 use AdGroup;
 use BiddingStrategyConfiguration;
 use CpcBid;
+use Idmkr\Adwords\Handlers\Adgroup\AdgroupDataHandler;
 use Money;
-use TempIdGenerator;
 
 /**
  * Class AdGroupCollection
@@ -13,6 +13,7 @@ use TempIdGenerator;
  */
 class AdGroupCollection extends AdwordsCollection
 {
+    protected $dataHandler = AdgroupDataHandler::class;
     /**
      * @var AdGroup[]
      */
@@ -28,29 +29,5 @@ class AdGroupCollection extends AdwordsCollection
                 return $adGroup->status == 'ENABLED';
             }
         ];
-    }
-
-    public function parseArrayItem(array $data) : AdGroup
-    {
-        $adGroup = new AdGroup();
-        
-        $adGroup->name = $data["name"];
-
-        if(!isset($data["id"])) {
-            $adGroup->id = TempIdGenerator::Generate();
-        }
-
-        $biddingStrategyConfiguration = new BiddingStrategyConfiguration();
-        $bid = new CpcBid();
-        $bid->bid = new Money(intval($data["bid"]*$this->microAmountFactor));
-        $biddingStrategyConfiguration->bids[] = $bid;
-
-        $adGroup->biddingStrategyConfiguration = $biddingStrategyConfiguration;
-
-        if(isset($data["enabled"])) {
-            $adGroup->status = $data["enabled"] ? 'ENABLED' : 'PAUSED';
-        }
-        
-        return $adGroup;
     }
 }

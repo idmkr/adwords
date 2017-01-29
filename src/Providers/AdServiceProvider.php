@@ -9,7 +9,6 @@ class AdServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-
 		// Subscribe the registered event handler
 		$this->app['events']->subscribe('idmkr.adwords.ad.handler.event');
 	}
@@ -24,12 +23,10 @@ class AdServiceProvider extends ServiceProvider {
 
 		// Register the data handler
 		$this->bindIf('idmkr.adwords.ad.handler.data', 'Idmkr\Adwords\Handlers\Ad\AdDataHandler');
+		$this->bindIf('idmkr.adwords.expandedtextad.handler.data', 'Idmkr\Adwords\Handlers\Ad\ExpandedTextAdDataHandler');
 
 		// Register the event handler
 		$this->bindIf('idmkr.adwords.ad.handler.event', 'Idmkr\Adwords\Handlers\Ad\AdEventHandler');
-
-		// Register the validator
-		$this->bindIf('idmkr.adwords.ad.validator', 'Idmkr\Adwords\Validator\Ad\AdValidator');
 	}
 
 }

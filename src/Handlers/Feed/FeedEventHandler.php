@@ -1,7 +1,7 @@
 <?php namespace Idmkr\Adwords\Handlers\Feed;
 
+use AdCustomizerFeed;
 use Illuminate\Events\Dispatcher;
-use Idmkr\Adwords\Models\Feed;
 use Cartalyst\Support\Handlers\EventHandler as BaseEventHandler;
 
 class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInterface {
@@ -32,7 +32,7 @@ class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInter
 	/**
 	 * {@inheritDoc}
 	 */
-	public function created(Feed $feed)
+	public function created(\AdCustomizerFeed $feed)
 	{
 		$this->flushCache($feed);
 	}
@@ -40,7 +40,7 @@ class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInter
 	/**
 	 * {@inheritDoc}
 	 */
-	public function updating(Feed $feed, array $data)
+	public function updating(\AdCustomizerFeed $feed, array $data)
 	{
 
 	}
@@ -48,7 +48,7 @@ class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInter
 	/**
 	 * {@inheritDoc}
 	 */
-	public function updated(Feed $feed)
+	public function updated(\AdCustomizerFeed $feed)
 	{
 		$this->flushCache($feed);
 	}
@@ -56,7 +56,7 @@ class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInter
 	/**
 	 * {@inheritDoc}
 	 */
-	public function deleting(Feed $feed)
+	public function deleting(\AdCustomizerFeed $feed)
 	{
 
 	}
@@ -64,7 +64,7 @@ class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInter
 	/**
 	 * {@inheritDoc}
 	 */
-	public function deleted(Feed $feed)
+	public function deleted(\AdCustomizerFeed $feed)
 	{
 		$this->flushCache($feed);
 	}
@@ -72,14 +72,14 @@ class FeedEventHandler extends BaseEventHandler implements FeedEventHandlerInter
 	/**
 	 * Flush the cache.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Feed  $feed
+	 * @param  AdCustomizerFeed  $feed
 	 * @return void
 	 */
-	protected function flushCache(Feed $feed)
+	protected function flushCache(\AdCustomizerFeed $feed)
 	{
 		$this->app['cache']->forget('idmkr.adwords.feed.all');
 
-		$this->app['cache']->forget('idmkr.adwords.feed.'.$feed->id);
+		$this->app['cache']->forget('idmkr.adwords.feed.'.$feed->feedId);
 	}
 
 }

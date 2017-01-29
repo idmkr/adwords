@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'description' => 'AdWords interactions abstraction',
+    'description' => 'AdWords PHP library',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,8 @@ return [
     */
 
     'require' => [
-	],
+
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -124,16 +125,16 @@ return [
 
     'providers' => [
 
-		'Idmkr\Adwords\Providers\CampaignsServiceProvider',
-		'Idmkr\Adwords\Providers\FeedServiceProvider',
-		'Idmkr\Adwords\Providers\AdgroupServiceProvider',
-		'Idmkr\Adwords\Providers\AdServiceProvider',
-		'Idmkr\Adwords\Providers\BatchServiceProvider',
-		'Idmkr\Adwords\Providers\KeywordServiceProvider',
-		'Idmkr\Adwords\Providers\GenerationServiceProvider',
-		'Idmkr\Adwords\Providers\UserServiceProvider',
+        'Idmkr\Adwords\Providers\CampaignsServiceProvider',
+        'Idmkr\Adwords\Providers\FeedServiceProvider',
+        'Idmkr\Adwords\Providers\AdgroupServiceProvider',
+        'Idmkr\Adwords\Providers\AdServiceProvider',
+        'Idmkr\Adwords\Providers\BatchServiceProvider',
+        'Idmkr\Adwords\Providers\KeywordServiceProvider',
+        'Idmkr\Adwords\Providers\UserServiceProvider',
+        'Idmkr\Adwords\Providers\BudgetServiceProvider',
 
-	],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -150,108 +151,61 @@ return [
     |
     */
 
-    'routes' => function(ExtensionInterface $extension, Application $app)
-	{
-		Route::group([
-				'prefix'    => admin_uri().'/adwords/feeds',
-				'namespace' => 'Idmkr\Adwords\Controllers\Admin',
-			], function()
-			{
-				Route::get('/' , ['as' => 'admin.idmkr.adwords.feeds.all', 'uses' => 'FeedsController@index']);
-				Route::post('/', ['as' => 'admin.idmkr.adwords.feeds.all', 'uses' => 'FeedsController@executeAction']);
+    'routes' => function (ExtensionInterface $extension, Application $app) {
+        Route::group([
+            'prefix' => admin_uri() . '/adwords/feeds',
+            'namespace' => 'Idmkr\Adwords\Controllers\Admin',
+        ], function () {
+            Route::get('/', ['as' => 'admin.idmkr.adwords.feeds.all', 'uses' => 'FeedsController@index']);
+            Route::post('/', ['as' => 'admin.idmkr.adwords.feeds.all', 'uses' => 'FeedsController@executeAction']);
 
-				Route::get('grid', ['as' => 'admin.idmkr.adwords.feeds.grid', 'uses' => 'FeedsController@grid']);
+            Route::get('grid', ['as' => 'admin.idmkr.adwords.feeds.grid', 'uses' => 'FeedsController@grid']);
 
-				Route::get('create' , ['as' => 'admin.idmkr.adwords.feeds.create', 'uses' => 'FeedsController@create']);
-				Route::post('create', ['as' => 'admin.idmkr.adwords.feeds.create', 'uses' => 'FeedsController@store']);
+            Route::get('create', ['as' => 'admin.idmkr.adwords.feeds.create', 'uses' => 'FeedsController@create']);
+            Route::post('create', ['as' => 'admin.idmkr.adwords.feeds.create', 'uses' => 'FeedsController@store']);
 
-				Route::get('{id}'   , ['as' => 'admin.idmkr.adwords.feeds.edit'  , 'uses' => 'FeedsController@edit']);
-				Route::post('{id}'  , ['as' => 'admin.idmkr.adwords.feeds.edit'  , 'uses' => 'FeedsController@update']);
+            Route::get('{id}', ['as' => 'admin.idmkr.adwords.feeds.edit', 'uses' => 'FeedsController@edit']);
+            Route::post('{id}', ['as' => 'admin.idmkr.adwords.feeds.edit', 'uses' => 'FeedsController@update']);
 
-				Route::delete('{id}', ['as' => 'admin.idmkr.adwords.feeds.delete', 'uses' => 'FeedsController@delete']);
-			});
+            Route::delete('{id}', ['as' => 'admin.idmkr.adwords.feeds.delete', 'uses' => 'FeedsController@delete']);
+        });
 
-		Route::group([
-			'prefix'    => 'adwords/feeds',
-			'namespace' => 'Idmkr\Adwords\Controllers\Frontend',
-		], function()
-		{
-			Route::get('/', ['as' => 'idmkr.adwords.feeds.index', 'uses' => 'FeedsController@index']);
-		});
+        Route::group([
+            'prefix' => admin_uri() . '/adwords/adgroups',
+            'namespace' => 'Idmkr\Adwords\Controllers\Admin',
+        ], function () {
+            Route::get('/', ['as' => 'admin.idmkr.adwords.adgroups.all', 'uses' => 'AdgroupsController@index']);
+            Route::post('/', ['as' => 'admin.idmkr.adwords.adgroups.all', 'uses' => 'AdgroupsController@executeAction']);
 
-					Route::group([
-				'prefix'    => admin_uri().'/adwords/adgroups',
-				'namespace' => 'Idmkr\Adwords\Controllers\Admin',
-			], function()
-			{
-				Route::get('/' , ['as' => 'admin.idmkr.adwords.adgroups.all', 'uses' => 'AdgroupsController@index']);
-				Route::post('/', ['as' => 'admin.idmkr.adwords.adgroups.all', 'uses' => 'AdgroupsController@executeAction']);
+            Route::get('grid', ['as' => 'admin.idmkr.adwords.adgroups.grid', 'uses' => 'AdgroupsController@grid']);
 
-				Route::get('grid', ['as' => 'admin.idmkr.adwords.adgroups.grid', 'uses' => 'AdgroupsController@grid']);
+            Route::get('create', ['as' => 'admin.idmkr.adwords.adgroups.create', 'uses' => 'AdgroupsController@create']);
+            Route::post('create', ['as' => 'admin.idmkr.adwords.adgroups.create', 'uses' => 'AdgroupsController@store']);
 
-				Route::get('create' , ['as' => 'admin.idmkr.adwords.adgroups.create', 'uses' => 'AdgroupsController@create']);
-				Route::post('create', ['as' => 'admin.idmkr.adwords.adgroups.create', 'uses' => 'AdgroupsController@store']);
+            Route::get('{id}', ['as' => 'admin.idmkr.adwords.adgroups.edit', 'uses' => 'AdgroupsController@edit']);
+            Route::post('{id}', ['as' => 'admin.idmkr.adwords.adgroups.edit', 'uses' => 'AdgroupsController@update']);
 
-				Route::get('{id}'   , ['as' => 'admin.idmkr.adwords.adgroups.edit'  , 'uses' => 'AdgroupsController@edit']);
-				Route::post('{id}'  , ['as' => 'admin.idmkr.adwords.adgroups.edit'  , 'uses' => 'AdgroupsController@update']);
+            Route::delete('{id}', ['as' => 'admin.idmkr.adwords.adgroups.delete', 'uses' => 'AdgroupsController@delete']);
+        });
 
-				Route::delete('{id}', ['as' => 'admin.idmkr.adwords.adgroups.delete', 'uses' => 'AdgroupsController@delete']);
-			});
+        Route::group([
+            'prefix' => admin_uri() . '/adwords/users',
+            'namespace' => 'Idmkr\Adwords\Controllers\Admin',
+        ], function () {
+            Route::get('/', ['as' => 'admin.idmkr.adwords.users.all', 'uses' => 'UsersController@index']);
+            Route::post('/', ['as' => 'admin.idmkr.adwords.users.all', 'uses' => 'UsersController@executeAction']);
 
-					Route::group([
-				'prefix'    => admin_uri().'/adwords/generations',
-				'namespace' => 'Idmkr\Adwords\Controllers\Admin',
-			], function()
-			{
-				Route::get('/' , ['as' => 'admin.idmkr.adwords.generations.all', 'uses' => 'GenerationsController@index']);
-				Route::post('/', ['as' => 'admin.idmkr.adwords.generations.all', 'uses' => 'GenerationsController@executeAction']);
+            Route::get('grid', ['as' => 'admin.idmkr.adwords.users.grid', 'uses' => 'UsersController@grid']);
 
-				Route::get('grid', ['as' => 'admin.idmkr.adwords.generations.grid', 'uses' => 'GenerationsController@grid']);
+            Route::get('create', ['as' => 'admin.idmkr.adwords.users.create', 'uses' => 'UsersController@create']);
+            Route::post('create', ['as' => 'admin.idmkr.adwords.users.create', 'uses' => 'UsersController@store']);
 
-				Route::get('create' , ['as' => 'admin.idmkr.adwords.generations.create', 'uses' => 'GenerationsController@create']);
-				Route::post('create', ['as' => 'admin.idmkr.adwords.generations.create', 'uses' => 'GenerationsController@store']);
+            Route::get('{id}', ['as' => 'admin.idmkr.adwords.users.edit', 'uses' => 'UsersController@edit']);
+            Route::post('{id}', ['as' => 'admin.idmkr.adwords.users.edit', 'uses' => 'UsersController@update']);
 
-				Route::get('{id}'   , ['as' => 'admin.idmkr.adwords.generations.edit'  , 'uses' => 'GenerationsController@edit']);
-				Route::post('{id}'  , ['as' => 'admin.idmkr.adwords.generations.edit'  , 'uses' => 'GenerationsController@update']);
-
-				Route::delete('{id}', ['as' => 'admin.idmkr.adwords.generations.delete', 'uses' => 'GenerationsController@delete']);
-			});
-
-		Route::group([
-			'prefix'    => 'adwords/generations',
-			'namespace' => 'Idmkr\Adwords\Controllers\Frontend',
-		], function()
-		{
-			Route::get('/', ['as' => 'idmkr.adwords.generations.index', 'uses' => 'GenerationsController@index']);
-		});
-
-					Route::group([
-				'prefix'    => admin_uri().'/adwords/users',
-				'namespace' => 'Idmkr\Adwords\Controllers\Admin',
-			], function()
-			{
-				Route::get('/' , ['as' => 'admin.idmkr.adwords.users.all', 'uses' => 'UsersController@index']);
-				Route::post('/', ['as' => 'admin.idmkr.adwords.users.all', 'uses' => 'UsersController@executeAction']);
-
-				Route::get('grid', ['as' => 'admin.idmkr.adwords.users.grid', 'uses' => 'UsersController@grid']);
-
-				Route::get('create' , ['as' => 'admin.idmkr.adwords.users.create', 'uses' => 'UsersController@create']);
-				Route::post('create', ['as' => 'admin.idmkr.adwords.users.create', 'uses' => 'UsersController@store']);
-
-				Route::get('{id}'   , ['as' => 'admin.idmkr.adwords.users.edit'  , 'uses' => 'UsersController@edit']);
-				Route::post('{id}'  , ['as' => 'admin.idmkr.adwords.users.edit'  , 'uses' => 'UsersController@update']);
-
-				Route::delete('{id}', ['as' => 'admin.idmkr.adwords.users.delete', 'uses' => 'UsersController@delete']);
-			});
-
-		Route::group([
-			'prefix'    => 'adwords/users',
-			'namespace' => 'Idmkr\Adwords\Controllers\Frontend',
-		], function()
-		{
-			Route::get('/', ['as' => 'idmkr.adwords.users.index', 'uses' => 'UsersController@index']);
-		});
-	},
+            Route::delete('{id}', ['as' => 'admin.idmkr.adwords.users.delete', 'uses' => 'UsersController@delete']);
+        });
+    },
 
     /*
     |--------------------------------------------------------------------------
@@ -290,173 +244,147 @@ return [
     |
     */
 
-    'permissions' => function(Permissions $permissions)
-	{
-		$permissions->group('feed', function($g)
-		{
-			$g->name = 'Feeds';
+    'permissions' => function (Permissions $permissions) {
+        $permissions->group('feed', function ($g) {
+            $g->name = 'Feeds';
 
-			$g->permission('feed.index', function($p)
-			{
-				$p->label = trans('idmkr/adwords::feeds/permissions.index');
+            $g->permission('feed.index', function ($p) {
+                $p->label = trans('idmkr/adwords::feeds/permissions.index');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'index, grid');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'index, grid');
+            });
 
-			$g->permission('feed.create', function($p)
-			{
-				$p->label = trans('idmkr/adwords::feeds/permissions.create');
+            $g->permission('feed.create', function ($p) {
+                $p->label = trans('idmkr/adwords::feeds/permissions.create');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'create, store');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'create, store');
+            });
 
-			$g->permission('feed.edit', function($p)
-			{
-				$p->label = trans('idmkr/adwords::feeds/permissions.edit');
+            $g->permission('feed.edit', function ($p) {
+                $p->label = trans('idmkr/adwords::feeds/permissions.edit');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'edit, update');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'edit, update');
+            });
 
-			$g->permission('feed.delete', function($p)
-			{
-				$p->label = trans('idmkr/adwords::feeds/permissions.delete');
+            $g->permission('feed.delete', function ($p) {
+                $p->label = trans('idmkr/adwords::feeds/permissions.delete');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'delete');
-			});
-		});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\FeedsController', 'delete');
+            });
+        });
 
-		$permissions->group('adgroup', function($g)
-		{
-			$g->name = 'Adgroups';
+        $permissions->group('adgroup', function ($g) {
+            $g->name = 'Adgroups';
 
-			$g->permission('adgroup.index', function($p)
-			{
-				$p->label = trans('idmkr/adwords::adgroups/permissions.index');
+            $g->permission('adgroup.index', function ($p) {
+                $p->label = trans('idmkr/adwords::adgroups/permissions.index');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'index, grid');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'index, grid');
+            });
 
-			$g->permission('adgroup.create', function($p)
-			{
-				$p->label = trans('idmkr/adwords::adgroups/permissions.create');
+            $g->permission('adgroup.create', function ($p) {
+                $p->label = trans('idmkr/adwords::adgroups/permissions.create');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'create, store');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'create, store');
+            });
 
-			$g->permission('adgroup.edit', function($p)
-			{
-				$p->label = trans('idmkr/adwords::adgroups/permissions.edit');
+            $g->permission('adgroup.edit', function ($p) {
+                $p->label = trans('idmkr/adwords::adgroups/permissions.edit');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'edit, update');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'edit, update');
+            });
 
-			$g->permission('adgroup.delete', function($p)
-			{
-				$p->label = trans('idmkr/adwords::adgroups/permissions.delete');
+            $g->permission('adgroup.delete', function ($p) {
+                $p->label = trans('idmkr/adwords::adgroups/permissions.delete');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'delete');
-			});
-		});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\AdgroupsController', 'delete');
+            });
+        });
 
-		$permissions->group('batchjob', function($g)
-		{
-			$g->name = 'Batchjobs';
+        $permissions->group('batchjob', function ($g) {
+            $g->name = 'Batchjobs';
 
-			$g->permission('batchjob.index', function($p)
-			{
-				$p->label = trans('idmkr/adwords::batchjobs/permissions.index');
+            $g->permission('batchjob.index', function ($p) {
+                $p->label = trans('idmkr/adwords::batchjobs/permissions.index');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'index, grid');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'index, grid');
+            });
 
-			$g->permission('batchjob.create', function($p)
-			{
-				$p->label = trans('idmkr/adwords::batchjobs/permissions.create');
+            $g->permission('batchjob.create', function ($p) {
+                $p->label = trans('idmkr/adwords::batchjobs/permissions.create');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'create, store');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'create, store');
+            });
 
-			$g->permission('batchjob.edit', function($p)
-			{
-				$p->label = trans('idmkr/adwords::batchjobs/permissions.edit');
+            $g->permission('batchjob.edit', function ($p) {
+                $p->label = trans('idmkr/adwords::batchjobs/permissions.edit');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'edit, update');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'edit, update');
+            });
 
-			$g->permission('batchjob.delete', function($p)
-			{
-				$p->label = trans('idmkr/adwords::batchjobs/permissions.delete');
+            $g->permission('batchjob.delete', function ($p) {
+                $p->label = trans('idmkr/adwords::batchjobs/permissions.delete');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'delete');
-			});
-		});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\BatchjobsController', 'delete');
+            });
+        });
 
-		$permissions->group('generation', function($g)
-		{
-			$g->name = 'Generations';
+        $permissions->group('generation', function ($g) {
+            $g->name = 'Generations';
 
-			$g->permission('generation.index', function($p)
-			{
-				$p->label = trans('idmkr/adwords::generations/permissions.index');
+            $g->permission('generation.index', function ($p) {
+                $p->label = trans('idmkr/adwords::generations/permissions.index');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'index, grid');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'index, grid');
+            });
 
-			$g->permission('generation.create', function($p)
-			{
-				$p->label = trans('idmkr/adwords::generations/permissions.create');
+            $g->permission('generation.create', function ($p) {
+                $p->label = trans('idmkr/adwords::generations/permissions.create');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'create, store');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'create, store');
+            });
 
-			$g->permission('generation.edit', function($p)
-			{
-				$p->label = trans('idmkr/adwords::generations/permissions.edit');
+            $g->permission('generation.edit', function ($p) {
+                $p->label = trans('idmkr/adwords::generations/permissions.edit');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'edit, update');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'edit, update');
+            });
 
-			$g->permission('generation.delete', function($p)
-			{
-				$p->label = trans('idmkr/adwords::generations/permissions.delete');
+            $g->permission('generation.delete', function ($p) {
+                $p->label = trans('idmkr/adwords::generations/permissions.delete');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'delete');
-			});
-		});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\GenerationsController', 'delete');
+            });
+        });
 
-		$permissions->group('user', function($g)
-		{
-			$g->name = 'Users';
+        $permissions->group('user', function ($g) {
+            $g->name = 'Users';
 
-			$g->permission('user.index', function($p)
-			{
-				$p->label = trans('idmkr/adwords::users/permissions.index');
+            $g->permission('user.index', function ($p) {
+                $p->label = trans('idmkr/adwords::users/permissions.index');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'index, grid');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'index, grid');
+            });
 
-			$g->permission('user.create', function($p)
-			{
-				$p->label = trans('idmkr/adwords::users/permissions.create');
+            $g->permission('user.create', function ($p) {
+                $p->label = trans('idmkr/adwords::users/permissions.create');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'create, store');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'create, store');
+            });
 
-			$g->permission('user.edit', function($p)
-			{
-				$p->label = trans('idmkr/adwords::users/permissions.edit');
+            $g->permission('user.edit', function ($p) {
+                $p->label = trans('idmkr/adwords::users/permissions.edit');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'edit, update');
-			});
+                $p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'edit, update');
+            });
 
-			$g->permission('user.delete', function($p)
-			{
-				$p->label = trans('idmkr/adwords::users/permissions.delete');
+            $g->permission('user.delete', function ($p) {
+                $p->label = trans('idmkr/adwords::users/permissions.delete');
 
-				$p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'delete');
-			});
-		});
-	},
+                $p->controller('Idmkr\Adwords\Controllers\Admin\UsersController', 'delete');
+            });
+        });
+    },
 
     /*
     |--------------------------------------------------------------------------
@@ -508,37 +436,30 @@ return [
 
     'menus' => [
 
-		'admin' => [
-			[
-				'slug' => 'admin-idmkr-adwords',
-				'name' => 'Adwords',
-				'class' => 'fa fa-circle-o',
-				'uri' => 'adwords',
-				'regex' => '/:admin\/adwords/i',
-				'children' => [
-					[
-						'class' => 'fa fa-circle-o',
-						'name' => 'Campaigns',
-						'uri' => 'adwords/campaigns',
-						'regex' => '/:admin\/adwords\/campaigns/i',
-						'slug' => 'admin-idmkr-adwords-campaigns',
-					],
-					[
-						'class' => 'fa fa-circle-o',
-						'name' => 'Generations',
-						'uri' => 'adwords/generations',
-						'regex' => '/:admin\/adwords\/generation/i',
-						'slug' => 'admin-idmkr-adwords-generation',
-					],
-					[
-						'class' => 'fa fa-circle-o',
-						'name' => 'Users',
-						'uri' => 'adwords/users',
-						'regex' => '/:admin\/adwords\/user/i',
-						'slug' => 'admin-idmkr-adwords-user',
-					],
-				],
-			],
-		],
-	],
+        'admin' => [
+            [
+                'slug' => 'admin-idmkr-adwords',
+                'name' => 'Adwords',
+                'class' => 'fa fa-circle-o',
+                'uri' => 'adwords',
+                'regex' => '/:admin\/adwords/i',
+                'children' => [
+                    [
+                        'class' => 'fa fa-circle-o',
+                        'name' => 'Campaigns',
+                        'uri' => 'adwords/campaigns',
+                        'regex' => '/:admin\/adwords\/campaigns/i',
+                        'slug' => 'admin-idmkr-adwords-campaigns',
+                    ],
+                    [
+                        'class' => 'fa fa-circle-o',
+                        'name' => 'Users',
+                        'uri' => 'adwords/users',
+                        'regex' => '/:admin\/adwords\/user/i',
+                        'slug' => 'admin-idmkr-adwords-user',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ];

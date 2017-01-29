@@ -1,6 +1,6 @@
 <?php namespace Idmkr\Adwords\Handlers\Campaigns;
 
-use Idmkr\Adwords\Models\Campaigns;
+use Campaign;
 use Cartalyst\Support\Handlers\EventHandlerInterface as BaseEventHandlerInterface;
 
 interface CampaignsEventHandlerInterface extends BaseEventHandlerInterface {
@@ -16,42 +16,42 @@ interface CampaignsEventHandlerInterface extends BaseEventHandlerInterface {
 	/**
 	 * When a campaigns is created.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Campaigns  $campaigns
+	 * @param  Campaign  $campaigns
 	 * @return mixed
 	 */
-	public function created(Campaigns $campaigns);
+	public function created(Campaign $campaigns);
 
 	/**
 	 * When a campaigns is being updated.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Campaigns  $campaigns
+	 * @param  Campaign  $campaigns
 	 * @param  array  $data
 	 * @return mixed
 	 */
-	public function updating(Campaigns $campaigns, array $data);
+	public function updating(Campaign $campaigns, array $data);
 
 	/**
 	 * When a campaigns is updated.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Campaigns  $campaigns
+	 * @param  Campaign  $campaigns
 	 * @return mixed
 	 */
-	public function updated(Campaigns $campaigns);
+	public function updated(Campaign $campaigns);
 
 	/**
 	 * When a campaigns is being deleted.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Campaigns  $campaigns
+	 * @param  Campaign  $campaigns
 	 * @return mixed
 	 */
-	public function deleting(Campaigns $campaigns);
+	public function deleting(Campaign $campaigns);
 
 	/**
 	 * When a campaigns is deleted.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Campaigns  $campaigns
+	 * @param  Campaign  $campaigns
 	 * @return mixed
 	 */
-	public function deleted(Campaigns $campaigns);
+	public function deleted(Campaign $campaigns);
 
 }

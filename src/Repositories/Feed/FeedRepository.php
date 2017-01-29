@@ -10,7 +10,6 @@ use AdGroupAdService;
 use AdGroupOperation;
 use AttributeFieldMapping;
 use CustomerFeed;
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Exception;
 use ExpandedTextAd;
 use FeedItemAdGroupTargeting;
@@ -24,57 +23,29 @@ use FeedMappingService;
 use FeedOperation;
 use FeedService;
 use FeedItem;
-use Idmkr\Adwords\Collections\AdGroupCollection;
 use Idmkr\Adwords\Collections\FeedItemCollection;
-use Idmkr\Adwords\Iterators\AdGroupIterator;
+use Idmkr\Adwords\Handlers\Feed\FeedDataHandlerInterface;
+use Idmkr\Adwords\Handlers\Feed\FeedItemDataHandler;
+use Idmkr\Adwords\Handlers\Feed\FeedItemDataHandlerInterface;
 use Idmkr\Adwords\Repositories\AdwordsRepository;
 use Operator;
 
 use Cartalyst\Support\Traits;
-use Illuminate\Container\Container;
 use LaravelGoogleAds\AdWords\AdWordsUser;
-use Symfony\Component\Finder\Finder;
 
-class FeedRepository extends AdwordsRepository implements FeedRepositoryInterface
+class FeedRepository extends AdwordsRepository
 {
-
-    use Traits\ContainerTrait, Traits\EventTrait, Traits\RepositoryTrait, Traits\ValidatorTrait;
-
-    /**
-     * The Data handler.
-     *
-     * @var \Idmkr\Adwords\Handlers\Feed\FeedDataHandlerInterface
-     */
-    protected $data;
-
-    /**
-     * Constructor.
-     *
-     * @param  \Illuminate\Container\Container $app
-     *
-     * @return void
-     */
-    public function __construct(Container $app)
-    {
-        parent::__construct();
-
-        $this->setContainer($app);
-
-        $this->setDispatcher($app['events']);
-
-        $this->data = $app['idmkr.adwords.feed.handler.data'];
-
-        $this->setValidator($app['idmkr.adwords.feed.validator']);
-    }
-
-    /**
+    /** 
      * @param AdWordsUser $user
      * @param             $name
      * @return null|AdCustomizerFeed
      */
     public function findByName(AdWordsUser $user, $name)
     {
-        return $this->findByPredicate($user, new \Predicate("FeedName", "EQUALS", $name));
+        return $this->find($user, [
+            new \Predicate("FeedName", "EQUALS", $name),
+            new \Predicate("FeedStatus", "EQUALS", 'ENABLED'),
+        ]);
     }
 
     /**
@@ -84,7 +55,7 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
      */
     public function findById(AdWordsUser $user, $id)
     {
-        return $this->findByPredicate($user, new \Predicate("FeedId", "EQUALS", $id));
+        return $this->find($user, new \Predicate("FeedId", "EQUALS", $id));
     }
 
     /**
@@ -92,29 +63,9 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
      * @param             $predicate
      * @return null|AdCustomizerFeed
      */
-    private function findByPredicate(AdWordsUser $user, $predicate)
+    public function find(AdWordsUser $user, $predicate)
     {
-        // Get the AdCustomizerFeedService, which loads the required classes.
-        /** @var AdCustomizerFeedService $adCustomizerFeedService */
-        $adCustomizerFeedService = $user->GetService('AdCustomizerFeedService',
-            $this->version);
-
-        $selector = new \Selector(
-            ["FeedName","FeedStatus","FeedAttributes"], $predicate
-        );
-
-        /** @var \AdCustomizerFeedPage $adCustomizerFeedPage */
-        $adCustomizerFeedPage = $adCustomizerFeedService->get($selector);
-
-        if(!$adCustomizerFeedPage->totalNumEntries)
-            return null;
-
-        foreach($adCustomizerFeedPage->entries as $adCustomizerFeed) {
-            if($adCustomizerFeed->feedStatus == "ENABLED") {
-                return $adCustomizerFeed;
-            }
-        }
-        return null;
+        return $this->get($user, ["FeedName","FeedStatus","FeedAttributes"], $predicate)[0] ?? null;
     }
 
     /**
@@ -129,37 +80,26 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
             if (!$feed = $this->findById($user, $id))
                 throw new Exception("AdWords Feed $id not found.");
         }
-        // Get the AdCustomizerFeedService, which loads the required classes.
-        /** @var AdCustomizerFeedService $adCustomizerFeedService */
-        $adCustomizerFeedService = $user->GetService('AdCustomizerFeedService',
-            $this->version);
 
-        $operation = new AdCustomizerFeedOperation();
-        $operation->operand = $feed;
-        $operation->operator = 'REMOVE';
-
-        /** @var AdCustomizerFeedReturnValue $adCustomizerFeedReturn */
-        $adCustomizerFeedReturn = $adCustomizerFeedService->mutate([$operation]);
-
-        return $adCustomizerFeedReturn->value ? $adCustomizerFeedReturn->value[0] : null;
+        return $this->mutate($user, $feed, 'REMOVE');
     }
 
     /**
      * @param AdWordsUser $user
-     * @param  int           $feedId
-     * @return FeedItem[]|null
+     * @param  \AdCustomizerFeed      $feed
+     * @return FeedItemCollection|null
      */
-    public function findItemsByFeedId(AdWordsUser $user, $feedId)
+    public function findItemsByFeed(AdWordsUser $user, \AdCustomizerFeed $feed)
     {
         // Get the AdCustomizerFeedService, which loads the required classes.
         /** @var FeedItemService $feedItemService */
         $feedItemService = $user->GetService('FeedItemService',
-            $this->version);
+            $this->getAdwordsApiVersion());
 
         $selector = new \Selector(
             ["FeedItemId","Status","AttributeValues"],
             [
-                new \Predicate("FeedId", "EQUALS", $feedId),
+                new \Predicate("FeedId", "EQUALS", $feed->feedId),
                 new \Predicate("Status", "EQUALS", 'ENABLED'),
             ]
         );
@@ -170,7 +110,7 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
         if(!$feedItemPage->totalNumEntries)
             return null;
 
-        return $feedItemPage->entries;
+        return new FeedItemCollection($feed, $feedItemPage->entries);
     }
 
     /**
@@ -185,7 +125,7 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
         // Get the AdCustomizerFeedService, which loads the required classes.
         /** @var AdCustomizerFeedService $adCustomizerFeedService */
         $adCustomizerFeedService = $user->GetService('AdCustomizerFeedService',
-            $this->version);
+            $this->getAdwordsApiVersion());
 
         $attributes = [];
 
@@ -226,7 +166,7 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
         // Get the FeedMappingService, which loads the required classes.
         /** @var FeedMappingService $feedMappingService */
         $feedMappingService = $user->GetService('FeedMappingService',
-            $this->version);
+            $this->getAdwordsApiVersion());
 
         $feedMapping = new FeedMapping();
         $feedMapping->placeholderType = 10;
@@ -268,50 +208,51 @@ class FeedRepository extends AdwordsRepository implements FeedRepositoryInterfac
      * Creates FeedItems with the values to use in ad customizations for each ad
      * group in adGroupIds
      *
-     * @param AdGroupCollection  $adGroups
-     * @param FeedItemCollection $feedItems
-     * @param callable           $getAdGroupFeedItem
+     * @param \AdGroup  $adGroup
+     * @param mixed $feedItem
      * @param string             $operator
      *
-     * @return array
+     * @return FeedItemOperation
      */
-    public function buildAdGroupsItemsOperations(
-        AdGroupCollection $adGroups,
-        FeedItemCollection $feedItems,
-        $operator = "ADD"
-    ){
-        if($feedItems->isEmpty()) {
-            return [];
-        }
-
+    public function buildAdGroupItemOperation(\AdGroup $adGroup, $feedItem, $operator = "ADD")
+    {
         // Get the FeedItemService, which loads the required classes.
         $this->requireService('FeedItemService');
 
-        $operations = array();
+        $adGroupTargeting = new FeedItemAdGroupTargeting();
+        $adGroupTargeting->TargetingAdGroupId = $adGroup->id;
+        $feedItem->adGroupTargeting = $adGroupTargeting;
 
-        /** @var \AdGroup $adGroup */
-        foreach($adGroups as $adGroup) {
-            // If there's no feed item found for this adGroup, we'll pass
-            // Todo: fix the need for an adgroup presence check
-            if(!isset($feedItems[$adGroup->name])) {
-                continue;
-            }
-            /** @var FeedItem $feedItem */
-            $feedItem = $feedItems[$adGroup->name];
+        $operation = new FeedItemOperation();
+        $operation->operator = $operator;
+        $operation->operand = $this->getItemDataHandler()->prepare($feedItem);
 
-            $adGroupTargeting = new FeedItemAdGroupTargeting();
-            $adGroupTargeting->TargetingAdGroupId = $adGroup->id;
-            $feedItem->adGroupTargeting = $adGroupTargeting;
+        return $operation;
+    }
 
-            if(!isset($feedItem)) {
-                throw new InvalidArgumentException("Feed Item for AdGroup not found : $adGroup->name\n");
-            }
-            $operation = new FeedItemOperation();
-            $operation->operator = $operator;
-            $operation->operand = $feedItem;
-            $operations[] = $operation;
-        }
+    /**
+     * @return string
+     */
+    protected function getEventNamespace() : string
+    {
+        return 'idmkr.adwords.feed';
+    }
 
-        return $operations;
+    /**
+     * @return string
+     */
+    protected function getEntityClassName() : string
+    {
+        return 'AdCustomizerFeed';
+    }
+
+    protected function getItemDataHandler() : FeedItemDataHandler
+    {
+        return app('idmkr.adwords.feeditem.handler.data');
+    }
+
+    protected function getDataHandler() : FeedDataHandlerInterface
+    {
+        return app('idmkr.adwords.feed.handler.data');
     }
 }

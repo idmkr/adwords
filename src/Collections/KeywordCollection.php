@@ -1,5 +1,6 @@
 <?php namespace Idmkr\Adwords\Collections;
 
+use Idmkr\Adwords\Handlers\Keyword\KeywordDataHandler;
 use Keyword;
 
 
@@ -10,45 +11,31 @@ use Keyword;
  */
 class KeywordCollection extends AdwordsCollection
 {
-    /**
-     * build an Keyword
-     *
-     * @param array $data the attributes
-     */
-    public function parseStringItem(string $text) : Keyword
-    {
-        $keyword = new Keyword();
+    protected $dataHandler = KeywordDataHandler::class;
 
-        if(starts_with($text, '"')) {
-            $keyword->matchType = 'PHRASE';
-            $text = str_replace('"', '', $text);
-        }
-        else if(starts_with($text, '[')) {
-            $keyword->matchType = 'EXACT';
-            $text = preg_replace('/[\[\]]/', '', $text);
-        }
-        else {
-            $keyword->matchType = 'BROAD';
-        }
-
-        $keyword->text = $text;
-
-        return $keyword;
-    }
-
-    /**
-     * build an Keyword
-     *
-     * @param array $data the attributes
-     */
-    public function parseArrayItem(string $data) : Keyword
+    protected function getKeywords()
     {
         $keywords = [];
 
-        foreach($data as $keyword) {
-            $keywords[] = $this->parseStringItem($keyword);
+        /** @var Keyword $keyword */
+        foreach($this->all() as $keyword) {
+            $keywords[] = $keyword->text;
         }
 
         return $keywords;
+    }
+
+    /**
+     * Merge the collection with the given items.
+     *
+     * @param  mixed  $items
+     * @return static
+     */
+    public function merge($items)
+    {
+        return new static(array_merge(
+            $this->getKeywords(),
+            $items instanceof static ? $items->getKeywords() : $this->getArrayableItems($items)
+        ));
     }
 }

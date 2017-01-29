@@ -2,124 +2,85 @@
 
 use AdWordsConstants;
 use Cartalyst\Support\Traits;
-use Exception;
+use Idmkr\Adwords\Handlers\User\UserDataHandler;
+use Idmkr\Adwords\Handlers\User\UserDataHandlerInterface;
 use Idmkr\Adwords\Repositories\AdwordsRepository;
-use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use LaravelGoogleAds\AdWords\AdWordsUser;
 use ManagedCustomer;
 use Paging;
 use Selector;
-use Symfony\Component\Finder\Finder;
 
-class UserRepository extends AdwordsRepository implements UserRepositoryInterface {
-
-	use Traits\ContainerTrait, Traits\EventTrait, Traits\RepositoryTrait, Traits\ValidatorTrait;
-
-	/**
-	 * The Data handler.
-	 *
-	 * @var \Idmkr\Adwords\Handlers\User\UserDataHandlerInterface
-	 */
-	protected $data;
-
-	/**
-	 * The Eloquent adwords model.
-	 *
-	 * @var string
-	 */
-	protected $model;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param  \Illuminate\Container\Container  $app
-	 * @return void
-	 */
-	public function __construct(Container $app)
-	{
-        parent::__construct();
-
-		$this->setContainer($app);
-
-		$this->setDispatcher($app['events']);
-
-		$this->data = $app['idmkr.adwords.user.handler.data'];
-
-		$this->setValidator($app['idmkr.adwords.user.validator']);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDefaultUser()
-	{
-		return new AdWordsUser();
-	}
-
-	/**
-	 * @return Collection
-	 */
-	public function findAll(AdWordsUser $user)
+class UserRepository extends AdwordsRepository
+{
+    /**
+     * @param AdWordsUser $user
+     *
+     * @return Collection
+     */
+    public function findAll(AdWordsUser $user) : Collection
 	{
         // Get the service, which loads the required classes.
-        $managedCustomerService = $user->GetService('ManagedCustomerService', $this->version);
+        $managedCustomerService = $user->GetService('ManagedCustomerService', $this->getAdwordsApiVersion());
 
-        // Create selector.
-        $selector = new Selector();
-        // Specify the fields to retrieve.
-        $selector->fields = array('CustomerId',  'Name');
-        $selector->paging = new Paging(0, AdWordsConstants::RECOMMENDED_PAGE_SIZE);
+        return $this->container['cache']->rememberForever('idmkr.adwords.user.all.'.$user->GetClientCustomerId(), function() use($managedCustomerService) {
+            // Create selector.
+            $selector = new Selector();
+            // Specify the fields to retrieve.
+            $selector->fields = array('CustomerId', 'Name');
+            $selector->paging = new Paging(0, AdWordsConstants::RECOMMENDED_PAGE_SIZE);
 
-        // Create map from customerID to account.
-        $accounts = array();
-        // Create map from customerId to parent and child links.
-        $childLinks = array();
-        $parentLinks = array();
-        do {
-            // Make the get request.
-            $graph = $managedCustomerService->get($selector);
+            // Create map from customerID to account.
+            $accounts = array();
+            // Create map from customerId to parent and child links.
+            $childLinks = array();
+            $parentLinks = array();
+            do {
+                // Make the get request.
+                $graph = $managedCustomerService->get($selector);
 
-            // Create links between manager and clients.
-            if (isset($graph->entries)) {
-                if (isset($graph->links)) {
-                    foreach ($graph->links as $link) {
-                        $childLinks[$link->managerCustomerId][] = $link;
-                        $parentLinks[$link->clientCustomerId] = $link;
+                // Create links between manager and clients.
+                if (isset($graph->entries)) {
+                    if (isset($graph->links)) {
+                        foreach ($graph->links as $link) {
+                            $childLinks[$link->managerCustomerId][] = $link;
+                            $parentLinks[$link->clientCustomerId] = $link;
+                        }
+                    }
+                    foreach ($graph->entries as $account) {
+                        $accounts[$account->customerId] = $account;
                     }
                 }
-                foreach ($graph->entries as $account) {
-                    $accounts[$account->customerId] = $account;
+                $selector->paging->startIndex += AdWordsConstants::RECOMMENDED_PAGE_SIZE;
+            } while ($selector->paging->startIndex < $graph->totalNumEntries);
+
+            $rootAccount = null;
+            foreach ($accounts as $account) {
+                if (!array_key_exists($account->customerId, $parentLinks)) {
+                    $rootAccount = $account;
+                    break;
                 }
             }
-            $selector->paging->startIndex += AdWordsConstants::RECOMMENDED_PAGE_SIZE;
-        } while ($selector->paging->startIndex < $graph->totalNumEntries);
 
-        $rootAccount = null;
-        foreach ($accounts as $account) {
-            if (!array_key_exists($account->customerId, $parentLinks)) {
-                $rootAccount = $account;
-                break;
+            if ($rootAccount !== null) {
+                return collect([$this->getAccountTree($rootAccount, $accounts, $childLinks)]);
+            } else {
+                return ("No accounts were found.\n");
             }
-        }
-
-        if ($rootAccount !== null) {
-            return collect([$this->getAccountTree($rootAccount, $accounts, $childLinks)]);
-        } else {
-            return ("No accounts were found.\n");
-        }
+        });
 
 	}
 
     /**
      * Displays an account tree, starting at the account provided, and recursing to
      * all child accounts.
+     * 
      * @param ManagedCustomer $account the account to display
      * @param array $accounts a map from customerId to account
      * @param array $links a map from customerId to child links
      * @param int $depth the depth of the current account in the tree
      */
-    function getAccountTree(ManagedCustomer $account, $accounts, $links)
+    public function getAccountTree(ManagedCustomer $account, $accounts, $links) : Array
     {
         return [
             'name' => $account->name,
@@ -131,7 +92,13 @@ class UserRepository extends AdwordsRepository implements UserRepositoryInterfac
         ];
     }
 
-    function getFlatTree($accounts, $depth = 0)
+    /**
+     * @param     $accounts
+     * @param int $depth
+     *
+     * @return array
+     */
+    public function getFlatTree($accounts, $depth = 0) : Array
     {
         $flattenedAccounts = [];
         foreach($accounts as $account) {
@@ -144,6 +111,12 @@ class UserRepository extends AdwordsRepository implements UserRepositoryInterfac
         return $flattenedAccounts;
     }
 
+    /**
+     * @param $customerId
+     * @param $adwordsAccounts
+     *
+     * @return array|null
+     */
     public function getAccount($customerId, $adwordsAccounts)
     {
         foreach($adwordsAccounts as $account) {
@@ -157,6 +130,20 @@ class UserRepository extends AdwordsRepository implements UserRepositoryInterfac
         return null;
     }
 
+
+    /**
+     * @return AdWordsUser|null
+     */
+    public function getDefaultUser()
+    {
+        return new AdWordsUser();
+    }
+
+    /**
+     * @param $clientCustomerId
+     *
+     * @return AdWordsUser|null
+     */
     public function getNewUser($clientCustomerId)
     {
         $user = new AdWordsUser();
@@ -164,4 +151,18 @@ class UserRepository extends AdwordsRepository implements UserRepositoryInterfac
         return $user;
     }
 
+    protected function getEntityClassName() : string
+    {
+        return 'ManagedCustomer';
+    }
+
+    protected function getEventNamespace() : string
+    {
+        return 'idmkr.adwords.user';
+    }
+
+    protected function getDataHandler() : UserDataHandler
+    {
+        return app('idmkr.adwords.user.handler.data');
+    }
 }

@@ -1,7 +1,7 @@
 <?php namespace Idmkr\Adwords\Collections;
 
 use Campaign;
-use Illuminate\Support\Arr;
+use Idmkr\Adwords\Handlers\Campaigns\CampaignDataHandler;
 
 /**
  * Class CampaignCollection
@@ -11,11 +11,5 @@ use Illuminate\Support\Arr;
  */
 class CampaignCollection extends AdwordsCollection
 {
-    function parseIntItem(int $id) : Campaign
-    {
-        $campaign = new Campaign();
-        $campaign->id = $id;
-
-        return $campaign;
-    }
+    protected $dataHandler = CampaignDataHandler::class;
 }

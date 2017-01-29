@@ -24,6 +24,7 @@ class FeedServiceProvider extends ServiceProvider {
 
 		// Register the data handler
 		$this->bindIf('idmkr.adwords.feed.handler.data', 'Idmkr\Adwords\Handlers\Feed\FeedDataHandler');
+		$this->bindIf('idmkr.adwords.feeditem.handler.data', 'Idmkr\Adwords\Handlers\Feed\FeedItemDataHandler');
 
 		// Register the event handler
 		$this->bindIf('idmkr.adwords.feed.handler.event', 'Idmkr\Adwords\Handlers\Feed\FeedEventHandler');

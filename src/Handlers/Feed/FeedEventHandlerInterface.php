@@ -1,10 +1,10 @@
 <?php namespace Idmkr\Adwords\Handlers\Feed;
 
-use Idmkr\Adwords\Models\Feed;
+use AdCustomizerFeed;
 use Cartalyst\Support\Handlers\EventHandlerInterface as BaseEventHandlerInterface;
 
-interface FeedEventHandlerInterface extends BaseEventHandlerInterface {
-
+interface FeedEventHandlerInterface extends BaseEventHandlerInterface
+{
 	/**
 	 * When a feed is being created.
 	 *
@@ -16,42 +16,42 @@ interface FeedEventHandlerInterface extends BaseEventHandlerInterface {
 	/**
 	 * When a feed is created.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Feed  $feed
+	 * @param  \AdCustomizerFeed  $feed
 	 * @return mixed
 	 */
-	public function created(Feed $feed);
+	public function created(AdCustomizerFeed $feed);
 
 	/**
 	 * When a feed is being updated.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Feed  $feed
+	 * @param  \AdCustomizerFeed  $feed
 	 * @param  array  $data
 	 * @return mixed
 	 */
-	public function updating(Feed $feed, array $data);
+	public function updating(AdCustomizerFeed $feed, array $data);
 
 	/**
 	 * When a feed is updated.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Feed  $feed
+	 * @param  \AdCustomizerFeed  $feed
 	 * @return mixed
 	 */
-	public function updated(Feed $feed);
+	public function updated(AdCustomizerFeed $feed);
 
 	/**
 	 * When a feed is being deleted.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Feed  $feed
+	 * @param  \AdCustomizerFeed  $feed
 	 * @return mixed
 	 */
-	public function deleting(Feed $feed);
+	public function deleting(AdCustomizerFeed $feed);
 
 	/**
 	 * When a feed is deleted.
 	 *
-	 * @param  \Idmkr\Adwords\Models\Feed  $feed
+	 * @param  \AdCustomizerFeed  $feed
 	 * @return mixed
 	 */
-	public function deleted(Feed $feed);
+	public function deleted(AdCustomizerFeed $feed);
 
 }

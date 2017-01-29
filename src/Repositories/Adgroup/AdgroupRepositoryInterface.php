@@ -1,14 +1,10 @@
 <?php namespace Idmkr\Adwords\Repositories\Adgroup;
 
+use AdGroup;
 use LaravelGoogleAds\AdWords\AdWordsUser;
 
-interface AdgroupRepositoryInterface {
-	/**
-	 * Creates a adwords adgroup with the given data.
-	 *
-	 * @param  AdWordsUser  $user
-	 * @param  array  $data
-	 * @return int the id
-	 */
-	public function create(AdWordsUser $user, $data);
+interface AdgroupRepositoryInterface 
+{
+    public function buildCampaignOperation(\Campaign $campaign, AdGroup $adGroup, $operator = 'ADD');
+    public function findByCampaignId(AdWordsUser $adwordsUser, $campaign_id);
 }

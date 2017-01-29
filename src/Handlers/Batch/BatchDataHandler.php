@@ -1,13 +1,21 @@
 <?php namespace Idmkr\Adwords\Handlers\Batch;
 
-class BatchDataHandler implements BatchDataHandlerInterface {
+use BatchJob;
+use Idmkr\Adwords\Handlers\DataHandler;
+use Idmkr\Adwords\Traits\RequireAdWordsServiceTrait;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function prepare(array $data)
+class BatchDataHandler extends DataHandler implements BatchDataHandlerInterface
+{
+    use RequireAdWordsServiceTrait;
+    
+    public function __construct()
+    {
+        $this->requireService("Util/".$this->getAdwordsApiVersion()."/BatchJobUtils", false);
+    }
+
+    public function prepare($data) : BatchJob
 	{
-		return $data;
+		return new BatchJob();
 	}
 
 }

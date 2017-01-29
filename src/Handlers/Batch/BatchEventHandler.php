@@ -1,75 +1,51 @@
 <?php namespace Idmkr\Adwords\Handlers\Batch;
 
+use BatchJob;
+use Exception;
+use Idmkr\Adwords\Models\Generation;
 use Illuminate\Events\Dispatcher;
-use Idmkr\Adwords\Models\Batch;
 use Cartalyst\Support\Handlers\EventHandler as BaseEventHandler;
-use LaravelGoogleAds\AdWords\AdWordsUser;
 
-class BatchEventHandler extends BaseEventHandler implements BatchEventHandlerInterface {
-
-	/**
+class BatchEventHandler extends BaseEventHandler implements BatchEventHandlerInterface
+{
+    /**
 	 * {@inheritDoc}
 	 */
 	public function subscribe(Dispatcher $dispatcher)
 	{
-		$dispatcher->listen('idmkr.adwords.batch.creating', __CLASS__.'@creating');
-		$dispatcher->listen('idmkr.adwords.batch.created', __CLASS__.'@created');
-
-		$dispatcher->listen('idmkr.adwords.batch.updating', __CLASS__.'@updating');
-		$dispatcher->listen('idmkr.adwords.batch.updated', __CLASS__.'@updated');
-
-		$dispatcher->listen('idmkr.adwords.batch.deleted', __CLASS__.'@deleting');
-		$dispatcher->listen('idmkr.adwords.batch.deleted', __CLASS__.'@deleted');
+		$dispatcher->listen('idmkr.adwords.batch.upload.success', __CLASS__.'@uploadSuccess');
+		$dispatcher->listen('idmkr.adwords.batch.upload.abort', __CLASS__.'@uploadAbort');
+		$dispatcher->listen('idmkr.adwords.batch.upload.fail', __CLASS__.'@uploadFail');
+		$dispatcher->listen('idmkr.adwords.batch.download.polling', __CLASS__.'@downloadPolling');
+		$dispatcher->listen('idmkr.adwords.batch.download.success', __CLASS__.'@downloadSuccess');
 	}
 
-	/**
-	 * Creating a batch job for this specific adwords user
-	 *
-	 * {@inheritDoc}
-	 */
-	public function creating($adWordsUser)
-	{
+    public function uploadAbort($generationData)
+    {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function created(\BatchJob $job)
-	{
+    public function uploadSuccess($generationData)
+    {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function updating(\BatchJob $job, array $data)
-	{
+    public function uploadFail($generationData)
+    {
+    }
 
-	}
+    public function downloadPolling($generationData)
+    {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function updated(\BatchJob $job)
-	{
+    public function downloadSuccess($generationData)
+    {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function deleting(\BatchJob $job)
-	{
+    public function downloadFail($generationData)
+    {
 
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function deleted(\BatchJob $job)
-	{
-
-	}
+    }
 
 }

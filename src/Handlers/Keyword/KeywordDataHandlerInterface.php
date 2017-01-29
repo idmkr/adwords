@@ -1,5 +1,7 @@
 <?php namespace Idmkr\Adwords\Handlers\Keyword;
 
+use Keyword;
+
 interface KeywordDataHandlerInterface {
 
 	/**
@@ -8,6 +10,6 @@ interface KeywordDataHandlerInterface {
 	 * @param  array  $data
 	 * @return mixed
 	 */
-	public function prepare(array $data);
+	public function prepare(array $data) : Keyword;
 
 }
