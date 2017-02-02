@@ -10,7 +10,7 @@ class AdDataHandler extends DataHandler
 	 *
 	 * @param array $data the attributes
 	 */
-	public function prepareArrayItem(array $data)
+	public function prepareArray(array $data)
 	{
 		$ad = new Ad();
 

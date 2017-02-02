@@ -18,16 +18,4 @@ class AdGroupCollection extends AdwordsCollection
      * @var AdGroup[]
      */
     public $items;
-
-    public function getPropertiesMap()
-    {
-        return [
-            'bid' => function (AdGroup $adGroup) {
-                return $adGroup->biddingStrategyConfiguration->bids[0]->bid->microAmount;
-            },
-            'enabled' => function (AdGroup $adGroup) {
-                return $adGroup->status == 'ENABLED';
-            }
-        ];
-    }
 }

@@ -24,17 +24,18 @@ class AdRepository extends AdwordsRepository
 	/**
 	 * Creates text ads that use ad customizations for the specified ad group IDs.
 	 *
-	 * @param AdGroup $adGroup the IDs of the ad groups to target with the FeedItem
+	 * @param mixed $adGroup the IDs of the ad groups to target with the FeedItem
 	 * @param mixed     $ad
 	 * @param mixed     $adGroupAd
 	 *
 	 * @return AdGroupAdOperation
 	 *
 	 */
-	public function buildAdGroupOperation(AdGroup $adGroup, $adData, $adGroupAdData = [])
+	public function buildAdGroupOperation($adGroup, $adData, $adGroupAdData = [])
     {
+        $adGroup = $this->getAdGroupDataHandler()->prepare($adGroup);
         $expandedTextAd = $this->getDataHandler()->prepare($adData);
-        
+
         $adGroupAd = new AdGroupAd();
         $adGroupAd->adGroupId = $adGroup->id;
         $adGroupAd->ad = $expandedTextAd;

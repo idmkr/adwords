@@ -2,6 +2,7 @@
 
 use Budget;
 use BudgetOperation;
+use Idmkr\Adwords\Handlers\Adgroup\AdgroupDataHandler;
 use Idmkr\Adwords\Handlers\DataHandler;
 use Idmkr\Adwords\Traits\RequireAdWordsServiceTrait;
 use Illuminate\Container\Container;
@@ -114,17 +115,18 @@ abstract class AdwordsRepository
      * @param AdWordsUser $adWordsUser
      * @param mixed       $predicate
      * @param array       $fields
+     * @param \OrderBy|null       $orderBy
      *
      * @return array|mixed an array of results
      */
-    public function get(AdWordsUser $adWordsUser, Array $fields, $predicate)
+    public function get(AdWordsUser $adWordsUser, Array $fields, $predicate, $orderBy = null)
     {
         $service = $this->getService($adWordsUser);
 
         if(is_numeric($predicate)) {
             if(!property_exists($this->getEntityClassName(), 'id')) {
                 throw new \InvalidArgumentException(
-                    'Id seems not selectable in '.$this->getEntityClassName().'. Set a manual predicate.'
+                    'Id is not selectable in '.$this->getEntityClassName().'.'
                 );
             }
 
@@ -132,6 +134,10 @@ abstract class AdwordsRepository
         }
 
         $selector = new \Selector($fields, $predicate);
+
+        if($orderBy) {
+           $selector->ordering = $orderBy;
+        }
 
         /** @var \Page $page */
         $page = $service->get($selector);
@@ -221,5 +227,10 @@ abstract class AdwordsRepository
     protected function getServiceName()
     {
         return $this->getEntityClassName().'Service';
+    }
+
+    protected function getAdGroupDataHandler() : AdgroupDataHandler
+    {
+        return app('idmkr.adwords.adgroup.handler.data');
     }
 }

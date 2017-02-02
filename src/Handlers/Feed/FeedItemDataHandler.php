@@ -39,4 +39,46 @@ class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInte
 
 		return $item;
 	}
+
+	/**
+	 * @param mixed $feedItem
+	 *
+	 * @return array
+	 */
+	public function getItemAttributes($feedItem) : array
+	{
+		$attrNames = collect($this->feed->feedAttributes)->keyBy(function (\AdCustomizerFeedAttribute $feedAttribute) {
+			return $feedAttribute->id;
+		})->map(function (\AdCustomizerFeedAttribute $feedAttribute) {
+			return $feedAttribute->name;
+		});
+		$attrValues = collect($feedItem->attributeValues)->keyBy(function (\FeedItemAttributeValue $feedItemAttributeValue) {
+			return $feedItemAttributeValue->feedAttributeId;
+		})->map(function (\FeedItemAttributeValue $feedItemAttributeValue) {
+			return $feedItemAttributeValue->stringValue;
+		});
+
+		$attrs = [];
+		foreach($attrNames as $attrId => $attrName) {
+			$attrs[$attrName] = $attrValues[$attrId] ?? null;
+		}
+
+		return $attrs;
+	}
+
+	public function getItemProperty($feedItem, $property, $default = '')
+	{
+		$attributes = $this->getItemAttributes($feedItem);
+
+        // We don't check on strings because $property can't be anything
+        // including existing global functions
+		if(!is_string($property) && is_callable($property)) {
+			return $property($attributes);
+		}
+		else if(isset($attributes[$property])) {
+			return $attributes[$property];
+		}
+
+		return $default;
+	}
 }

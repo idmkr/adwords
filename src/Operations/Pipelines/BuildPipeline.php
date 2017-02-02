@@ -69,7 +69,7 @@ class BuildPipeline
     {
         $commits = $this->getCommits();
         foreach ($commits as $i => $commit) {
-            $ret = $callback($commit, $i, $this->getPayload());
+            $ret = $callback($commit, $this->getPayload(), $i);
 
             // If return is a builder, then send it through the current pipeline
             if(is_a($ret, Builder::class)) {
@@ -111,7 +111,7 @@ class BuildPipeline
         else if ($commits instanceof Commit) {
             $this->commits[] = $commits;
         }
-        else {
+        else if($commits) {
             $type = is_object($commits) ? class_basename($commits) : gettype($commits);
             throw new \Exception("addCommits(): argument is not a commit, " . $type . " instead.");
         }

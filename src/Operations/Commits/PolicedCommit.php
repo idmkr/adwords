@@ -11,6 +11,11 @@ class PolicedCommit extends Commit
         return $this;
     }
 
+    public function getPolicyViolationRules()
+    {
+        return $this->policyViolationRules;
+    }
+
     public function setAdGroup(\AdGroup $adGroup)
     {
         $this->adGroup = $adGroup;

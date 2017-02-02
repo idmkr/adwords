@@ -65,6 +65,9 @@ class FeedRepository extends AdwordsRepository
      */
     public function find(AdWordsUser $user, $predicate)
     {
+        if(is_numeric($predicate)) {
+            $predicate = new \Predicate("FeedId","EQUALS",$predicate);
+        }
         return $this->get($user, ["FeedName","FeedStatus","FeedAttributes"], $predicate)[0] ?? null;
     }
 
@@ -107,10 +110,7 @@ class FeedRepository extends AdwordsRepository
         /** @var \FeedItemPage $feedItemPage */
         $feedItemPage = $feedItemService->get($selector);
 
-        if(!$feedItemPage->totalNumEntries)
-            return null;
-
-        return new FeedItemCollection($feed, $feedItemPage->entries);
+        return new FeedItemCollection($feed, $feedItemPage->entries ?: []);
     }
 
     /**

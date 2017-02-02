@@ -128,7 +128,7 @@ class MutateResultCollection extends AdwordsCollection
 
     public function hasPolicyViolationErrors()
     {
-        return !empty($this->getAdsWithPolicyViolationErrors([]));
+        return !empty($this->getPolicyViolationErrors([]));
     }
 
     /**
@@ -137,35 +137,56 @@ class MutateResultCollection extends AdwordsCollection
      *
      * @return array
      */
-    public function getAdsWithPolicyViolationErrors(Array $operations)
+    public function getPolicyViolationErrors(Array $operations, $wantedOperationType = null)
     {
-        $ads = [];
+        $policyErrors = [];
         foreach($this->getErrors() as $operationIndex => $errors) {
             $trademarkPayload = null;
             /** @var \PolicyViolationError $error */
             foreach($errors as $error) {
                 // Now check for PolicyViolationError
-                if ($error->errorString == 'AdPolicyError.POLICY_ERROR' && $error->key->policyName == "trademark") {
+                if ($error instanceof \PolicyViolationError) {
                     if(!$trademarkPayload) {
-                        $adGroupAdResult = !empty($operations) ? $operations[$operationIndex]->operand->ad : null;
-                        $trademarkPayload = ["ad" => $adGroupAdResult, "trademarks" => []];
+                        $trademarkPayload = ["errors" => []];
+
+                        if(!empty($operations)) {
+                            $operand = $operations[$operationIndex]->operand;
+                            $operationType = $operations[$operationIndex]->OperationType;
+
+                            if(!$wantedOperationType || $operationType == $wantedOperationType) {
+                                if ($operationType == 'AdGroupAd') {
+                                    $trademarkPayload['AdGroupAd'] = $operand->ad;
+                                }
+                                else if ($operationType = 'BiddableAdGroupCriterion') {
+                                    $trademarkPayload['BiddableAdGroupCriterion'] = $operand->criterion;
+                                }
+                                else {
+                                    throw new \Exception('Unhandled error type : '.class_basename($operand));
+                                }
+                            }
+                            // We do not want this error
+                            else {
+                                break;
+                            }
+                        }
                     }
                     $fieldPaths = explode('.', $error->fieldPath);
-                    $trademarkPayload["trademarks"][] = [
+                    $trademarkPayload["errors"][] = [
                         "field" => array_pop($fieldPaths),
-                        "text" => $error->key->violatingText
+                        "text" => $error->key->violatingText,
+                        "type" => $error->key->policyName
                     ];
                 }
             }
 
             // Some fields contains policy errors
             if ($trademarkPayload) {
-                $ads[] = $trademarkPayload;
+                $policyErrors[$operationIndex] = $trademarkPayload;
                 if (!$operations) {
                     break;
                 }
             }
         }
-        return $ads;
+        return $policyErrors;
     }
 }

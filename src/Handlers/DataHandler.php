@@ -1,6 +1,7 @@
 <?php namespace Idmkr\Adwords\Handlers;
 
 use Exception;
+use Idmkr\Adwords\Operations\Commits\Commit;
 use Operation;
 
 abstract class DataHandler
@@ -30,7 +31,10 @@ abstract class DataHandler
             return $this->prepareInt($data);
         }
         else if($data instanceof \Operation) {
-            return $this->prepareOperation($data);
+            return $data->operand;
+        }
+        else if($data instanceof Commit) {
+            return $data->operation->operand;
         }
         else if(!is_object($data)) {
             throw new Exception(static::class." can't parse '$data'(".gettype($data)."), prepare".ucfirst(gettype($data))." method needed.");
@@ -38,14 +42,31 @@ abstract class DataHandler
         else return $data;
     }
 
-    /**
-     * @param Operation $operation
-     *
-     * @return array
-     */
-    protected function prepareOperation(Operation $operation)
+    public function equals($source, $target, $diffProperties = ["id"])
     {
-        return $operation->operand;
+        $diffProperties = $this->mapDiffProperties($diffProperties);
+
+        foreach ($diffProperties as $property) {
+            $valueSource = $this->getItemProperty($source, $property);
+            $valueTarget = $this->getItemProperty($target, $property);
+
+            if ($valueSource !== $valueTarget) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function getItemProperty($item, $property, $default = '')
+    {
+        if(is_callable($property)) {
+            return $property($item);
+        }
+        else if(isset($item->{$property})) {
+            return $item->{$property};
+        }
+
+        return $default;
     }
 
     /**
@@ -63,5 +84,28 @@ abstract class DataHandler
                 throw new Exception(get_class($this)." prepare method require '$key' key to be defined and not empty.");
             }
         }
+    }
+
+    private function mapDiffProperties($diffProperties)
+    {
+        if(method_exists($this, 'getPropertiesMap')) {
+            $diffPropertiesMap =  $this->getPropertiesMap();
+        }
+        else {
+            $diffPropertiesMap = [];
+        }
+
+        $returnedProperties = [];
+
+        foreach($diffProperties as $k => $property) {
+            if(isset($diffPropertiesMap[$property])) {
+                $returnedProperties[$property] = $diffPropertiesMap[$property];
+            }
+            else {
+                $returnedProperties[$property] = $property;
+            }
+        }
+
+        return $returnedProperties;
     }
 }

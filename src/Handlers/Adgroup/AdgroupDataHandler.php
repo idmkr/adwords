@@ -40,4 +40,16 @@ class AdgroupDataHandler extends DataHandler
 
 		return $adGroup;
 	}
+
+	public function getPropertiesMap()
+	{
+		return [
+			'bid' => function (AdGroup $adGroup) {
+				return $adGroup->biddingStrategyConfiguration->bids[0]->bid->microAmount;
+			},
+			'enabled' => function (AdGroup $adGroup) {
+				return $adGroup->status == 'ENABLED';
+			}
+		];
+	}
 }

@@ -23,7 +23,7 @@ class ExpandedTextAdDataHandler extends DataHandler
 	 */
 	public function prepareArray(array $data) : ExpandedTextAd
 	{
-		$this->requireData($data, ['title1', 'title2', 'description', 'url', 'path1']);
+		$this->requireData($data, ['title1', 'title2', 'description', 'url']);
 		$expandedTextAd = new ExpandedTextAd();
 
 		$expandedTextAd->headlinePart1 = $data["title1"];

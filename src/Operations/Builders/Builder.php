@@ -34,7 +34,12 @@ abstract class Builder
         return $this->director->getData();
     }
 
-    protected function commit(\Operation $operation)
+    /**
+     * @param \Operation $operation
+     *
+     * @return Commit
+     */
+    protected function commit($operation)
     {
         return new Commit($operation);
     }

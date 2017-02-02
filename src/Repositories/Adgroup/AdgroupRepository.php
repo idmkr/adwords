@@ -62,11 +62,14 @@ class AdgroupRepository extends AdwordsRepository
     public function findByCampaignId(AdWordsUser $adwordsUser, $campaign_id) : AdGroupCollection
     {
         return new AdGroupCollection(
-            $this->get($adwordsUser, ["Id","Name", "CpcBid", "Status"], [
-                new \Predicate("CampaignId", "EQUALS", $campaign_id),
-                new \Predicate("Status", "IN", ['ENABLED', 'PAUSED']),
-            ])
-        );
+            $this->get($adwordsUser,
+                ["Id","Name", "CpcBid", "Status"], [
+                    new \Predicate("CampaignId", "EQUALS", $campaign_id),
+                    new \Predicate("Status", "IN", ['ENABLED', 'PAUSED']),
+                ],
+                new \OrderBy('Id')
+            )
+        ); 
     }
 
     /**

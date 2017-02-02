@@ -11,4 +11,10 @@ class Commit
     {
         $this->operation = $operation;
     }
+
+    public function setOperator(string $operator)
+    {
+        $this->operation->operator = $operator;
+        return $this;
+    }
 }

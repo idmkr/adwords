@@ -66,9 +66,9 @@ abstract class AdwordsCollection extends Collection
      * @param mixed            $diffProperties
      * @param string           $key
      *
-     * @return $this
+     * @return static
      */
-    public function diffKey($elements, $diffProperties = ["id"], $key = null)
+    public function diff($elements, $diffProperties = ["id"], $key = null)
     {
         $items = $this->all();
 
@@ -79,72 +79,20 @@ abstract class AdwordsCollection extends Collection
             $elements = $this->clone($elements);
         }
 
-        $diffProperties = $this->mapDiffProperties($diffProperties);
-
         if($key) {
             $elements = $elements->keyBy($key);
         }
 
         foreach($items as $i => $sourceItem) {
-            $localKey = $this->getItemProperty($sourceItem, $key ?: $i, $key ?: $i);
+            $localKey = $this->getDataHandler()->getItemProperty($sourceItem, $key ?: $i, $key ?: $i);
+            $isIdentical = $this->getDataHandler()->equals($sourceItem, $elements[$localKey], $diffProperties);
 
-            $foundIdentical = true;
-            if (isset($elements[$localKey])) {
-                $targetItem = $elements[$localKey];
-                foreach ($diffProperties as $property) {
-                    $valueSource = $this->getItemProperty($sourceItem, $property);
-                    $valueTarget = $this->getItemProperty($targetItem, $property);
-
-                    if ($valueSource !== $valueTarget) {
-                        $foundIdentical = false;
-                        break;
-                    }
-                }
-            }
-            else {
-                $foundIdentical = false;
-            }
-            if($foundIdentical) {
+            if (isset($elements[$localKey]) &&  $isIdentical) {
                 unset($items[$i]);
             }
         }
 
         return $this->clone($items);
-    }
-
-    protected function getItemProperty($item, $property, $default = '')
-    {
-        if(is_callable($property)) {
-            return $property($item);
-        }
-        else if(isset($item->{$property})) {
-            return $item->{$property};
-        }
-
-        return $default;
-    }
-
-    private function mapDiffProperties($diffProperties)
-    {
-        if(method_exists($this, 'getPropertiesMap')) {
-            $diffPropertiesMap =  $this->getPropertiesMap();
-        }
-        else {
-            $diffPropertiesMap = [];
-        }
-
-        $returnedProperties = [];
-
-        foreach($diffProperties as $k => $property) {
-            if(isset($diffPropertiesMap[$property])) {
-                $returnedProperties[$property] = $diffPropertiesMap[$property];
-            }
-            else {
-                $returnedProperties[$property] = $property;
-            }
-        }
-
-        return $returnedProperties;
     }
 
     public function keyBy($key)

@@ -102,12 +102,13 @@ class BatchOperationsDirector implements DirectorInterface
                 $entity = array_dot(json_decode(json_encode($commit->operation->operand), true));
                 return [
                     'data' => array_trim($entity),
-                    'type' => class_basename($commit->operation->operand)
+                    'type' => class_basename($commit->operation->operand),
+                    'operator' => $commit->operation->operator
                 ];
             });
             $data[$key][] = [
                 'scope' => class_basename($pipeline->scope) . ' ' . $pipeline->scope->id,
-                'payload' => $pipeline->getPayload(),
+                'payload' => array_dot(json_decode(json_encode($pipeline->getPayload()), true)),
                 'operations' => $commits
             ];
         }
@@ -119,7 +120,7 @@ class BatchOperationsDirector implements DirectorInterface
     /**
      * @param Blueprint $blueprint
      *
-     * @return array
+     * @return Commit[]
      */
     public function execute($blueprint) : Array
     {
@@ -147,7 +148,11 @@ class BatchOperationsDirector implements DirectorInterface
     public function upload(Array $commits) : MutateResultCollection
     {
         try {
-            $operations = array_map(function (Commit $commit) { return $commit->operation; }, $commits);
+            $operations = [];
+            foreach ($commits as $i => $commit) {
+                $operations[] = $commit->operation;
+            }
+
             $operations_count = count($operations);
 
             // Nothing to upload
@@ -289,7 +294,9 @@ class BatchOperationsDirector implements DirectorInterface
      */
     protected function log($string)
     {
-        echo $string . "\n";
+        if(\App::runningInConsole()) {
+            echo $string . "\n";
+        }
     }
 
     /**
