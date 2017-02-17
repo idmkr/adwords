@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInterface
 {
 
-    private $feed;
+    public $feed;
 
     public function __construct(AdCustomizerFeed $feed)
     {

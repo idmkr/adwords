@@ -1,10 +1,6 @@
 vendor
-themes
-extension.php
 database/migrations/2016_10_23_135005_create_user_adwords_accounts_table.php
 lang
 src/Widgets
-src/Providers
-!src/Providers/AdwordsServiceProvider.php
 src/Controllers
 composer.lock

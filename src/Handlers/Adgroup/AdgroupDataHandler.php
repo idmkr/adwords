@@ -19,6 +19,7 @@ class AdgroupDataHandler extends DataHandler
 
 	public function prepareArray(array $data) : AdGroup
 	{
+        
 		$adGroup = new AdGroup();
 		$adGroup->name = $data["name"];
 
@@ -37,6 +38,7 @@ class AdgroupDataHandler extends DataHandler
 		if(isset($data["enabled"])) {
 			$adGroup->status = $data["enabled"] ? 'ENABLED' : 'PAUSED';
 		}
+
 
 		return $adGroup;
 	}

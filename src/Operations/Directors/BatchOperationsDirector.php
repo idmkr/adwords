@@ -171,7 +171,8 @@ class BatchOperationsDirector implements DirectorInterface
                     'uploadUrl' => $batchJob->uploadUrl->url
                 ]);
 
-                $this->storeOperations($batchJob->id, $operations);
+                //TO DO : effacer quand adwords-synced est terminé
+                //$this->storeOperations($batchJob->id, $operations);
 
                 printf("\nUploaded %d operations for batch job with ID %d.\n",
                     $operations_count, $batchJob->id);
@@ -237,7 +238,9 @@ class BatchOperationsDirector implements DirectorInterface
 
             $this->updateState('download.success', ['status' => 'DONE']);
 
-            $this->log((count($mutateResults)) . " operations returned. ".$mutateResults->getErrors()->count()." errors found.");
+            if($mutateResults) {
+                $this->log((count($mutateResults)) . " operations returned. ".$mutateResults->getErrors()->count()." errors found.");
+            }
 
             return $mutateResults;
         } else {
@@ -290,16 +293,6 @@ class BatchOperationsDirector implements DirectorInterface
     }
 
     /**
-     * @param $string
-     */
-    protected function log($string)
-    {
-        if(\App::runningInConsole()) {
-            echo $string . "\n";
-        }
-    }
-
-    /**
      * @param $batchJobId
      * @param $operations
      */
@@ -329,5 +322,18 @@ class BatchOperationsDirector implements DirectorInterface
     private function storeBatchJobFile($batchJobId, $file, $contents)
     {
         Storage::put("adwords_batch_jobs/$batchJobId/$file", $contents, 'private');
+    }
+
+    /**
+     * @param $string
+     */
+    public function log($string)
+    {
+        if(\App::runningInConsole()) {
+            echo $string . "\n";
+        }
+        else if(request()->get("test") == 1) {
+            echo str_replace(' ','&nbsp;',$string) . "<br>";
+        }
     }
 }

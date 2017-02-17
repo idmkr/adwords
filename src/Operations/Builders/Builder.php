@@ -3,6 +3,7 @@
 
 use Idmkr\Adwords\Operations\Commits\Commit;
 use Idmkr\Adwords\Operations\Directors\DirectorInterface;
+use Operation;
 
 abstract class Builder
 {
@@ -10,6 +11,24 @@ abstract class Builder
      * @var DirectorInterface
      */
     protected $director;
+
+    protected $logLevel = 0;
+
+    /**
+     * @return int
+     */
+    public function getLogLevel()
+    {
+        return $this->logLevel;
+    }
+
+    /**
+     * @param int $logLevel
+     */
+    public function setLogLevel($logLevel)
+    {
+        $this->logLevel = $logLevel;
+    }
 
     /**
      *
@@ -39,8 +58,16 @@ abstract class Builder
      *
      * @return Commit
      */
-    protected function commit($operation)
+    protected function commit(Operation $operation)
     {
+        $this->log("Committing ".class_basename($operation->operand).".");
         return new Commit($operation);
+    }
+
+    public function log($msg, $logLevel = 1)
+    {
+        if($this->logLevel >= $logLevel) {
+            $this->director->log($msg);
+        }
     }
 }

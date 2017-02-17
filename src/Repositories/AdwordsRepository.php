@@ -116,12 +116,13 @@ abstract class AdwordsRepository
      * @param mixed       $predicate
      * @param array       $fields
      * @param \OrderBy|null       $orderBy
+     * @param string|null       $serviceName
      *
      * @return array|mixed an array of results
      */
-    public function get(AdWordsUser $adWordsUser, Array $fields, $predicate, $orderBy = null)
+    public function get(AdWordsUser $adWordsUser, Array $fields, $predicate, $orderBy = null, $serviceName = null)
     {
-        $service = $this->getService($adWordsUser);
+        $service = $this->getService($adWordsUser, $serviceName);
 
         if(is_numeric($predicate)) {
             if(!property_exists($this->getEntityClassName(), 'id')) {
@@ -144,7 +145,6 @@ abstract class AdwordsRepository
 
         if(!$page->totalNumEntries)
             return [];
-
         return $page->entries;
     }
 
@@ -168,9 +168,9 @@ abstract class AdwordsRepository
      *
      * @return \BatchJobService|\LaravelGoogleAds\Services\AdWordsService
      */
-    public function getService($adWordsUser)
+    public function getService($adWordsUser, $serviceName = false)
     {
-        return $this->getUserService($adWordsUser, $this->getServiceName());
+        return $this->getUserService($adWordsUser, $serviceName ?: $this->getServiceName());
     }
 
     /**
@@ -229,6 +229,12 @@ abstract class AdwordsRepository
         return $this->getEntityClassName().'Service';
     }
 
+    /**
+     * The AdGroupDataHandler is used across repositories to
+     * prepare a containing adgroup of a given entity
+     *
+     * @return AdgroupDataHandler
+     */
     protected function getAdGroupDataHandler() : AdgroupDataHandler
     {
         return app('idmkr.adwords.adgroup.handler.data');

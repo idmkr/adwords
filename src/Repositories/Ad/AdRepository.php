@@ -11,6 +11,7 @@ use Idmkr\Adwords\Handlers\Ad\ExpandedTextAdDataHandler;
 use Idmkr\Adwords\Repositories\AdwordsRepository;
 use Illuminate\Container\Container;
 use LaravelGoogleAds\AdWords\AdWordsUser;
+use Idmkr\Adwords\Collections\AdGroupAdCollection;
 
 class AdRepository extends AdwordsRepository
 {
@@ -31,7 +32,7 @@ class AdRepository extends AdwordsRepository
 	 * @return AdGroupAdOperation
 	 *
 	 */
-	public function buildAdGroupOperation($adGroup, $adData, $adGroupAdData = [])
+	public function buildAdGroupOperation($adGroup, $adData, $operator = 'ADD')
     {
         $adGroup = $this->getAdGroupDataHandler()->prepare($adGroup);
         $expandedTextAd = $this->getDataHandler()->prepare($adData);
@@ -44,7 +45,7 @@ class AdRepository extends AdwordsRepository
             $adGroupAd->status = $adGroupAdData["enabled"] == 1 ? "ENABLED" : "PAUSED";
         }
 
-		return $this->fillOperation(new AdGroupAdOperation, $adGroupAd);
+		return $this->fillOperation(new AdGroupAdOperation, $adGroupAd, $operator);
 	}
 
     /**
@@ -66,5 +67,27 @@ class AdRepository extends AdwordsRepository
     protected function getDataHandler() : ExpandedTextAdDataHandler
     {
         return app('idmkr.adwords.expandedtextad.handler.data');
+    }
+
+    /**
+     * @param AdWordsUser $adwordsUser
+     * @param int         $campaign_id
+     *
+     * @return AdGroupAdCollection
+     */
+    public function findAdGroupAdByCampaignId(AdWordsUser $adwordsUser, $campaign_id) : AdGroupAdCollection
+    {
+        return new AdGroupAdCollection(
+            $this->get($adwordsUser,
+                // Select
+                ["AdGroupId", "HeadlinePart1","HeadlinePart2", "Description", "Path1", "Path2","CreativeFinalUrls"],
+                // Where
+                [new \Predicate("BaseCampaignId", "EQUALS", $campaign_id)],
+                // Order By
+                new \OrderBy('Id'),
+                // Using a specific service
+                'AdGroupAdService'
+            )
+        );
     }
 }
