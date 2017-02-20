@@ -82,7 +82,10 @@ class AdRepository extends AdwordsRepository
                 // Select
                 ["AdGroupId", "HeadlinePart1","HeadlinePart2", "Description", "Path1", "Path2","CreativeFinalUrls"],
                 // Where
-                [new \Predicate("BaseCampaignId", "EQUALS", $campaign_id)],
+                [
+                    new \Predicate("BaseCampaignId", "EQUALS", $campaign_id),
+                    new \Predicate("Status", "NOT_EQUALS", "DISABLED")
+                ],
                 // Order By
                 new \OrderBy('Id'),
                 // Using a specific service
