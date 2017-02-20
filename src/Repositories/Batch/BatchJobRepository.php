@@ -152,8 +152,6 @@ class BatchJobRepository extends AdwordsRepository implements BatchJobRepository
         $deserializer = new XmlDeserializer(BatchJobUtils::$CLASS_MAP);
         $mutateResponse = $deserializer->ConvertXmlToObject($xmlResponse);
 
-        dump($mutateResponse);
-
         return is_object($mutateResponse) && $mutateResponse->rval ? new MutateResultCollection($mutateResponse->rval) : null;
     }
 

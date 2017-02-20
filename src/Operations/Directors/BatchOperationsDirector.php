@@ -172,7 +172,7 @@ class BatchOperationsDirector implements DirectorInterface
                 ]);
 
                 //TO DO : effacer quand adwords-synced est terminé
-                //$this->storeOperations($batchJob->id, $operations);
+                $this->storeOperations($batchJob->id, $operations);
 
                 printf("\nUploaded %d operations for batch job with ID %d.\n",
                     $operations_count, $batchJob->id);
