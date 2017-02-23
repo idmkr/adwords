@@ -63,7 +63,7 @@ class AdgroupRepository extends AdwordsRepository
     {
         return new AdGroupCollection(
             $this->get($adwordsUser,
-                ["Id","Name", "CpcBid", "Status"], [
+                ["Id","CampaignId","Name", "CpcBid", "Status"], [
                     new \Predicate("CampaignId", "EQUALS", $campaign_id),
                     new \Predicate("Status", "IN", ['ENABLED', 'PAUSED']),
                 ],

@@ -242,7 +242,10 @@ class BatchOperationsDirector implements DirectorInterface
                 $this->log((count($mutateResults)) . " operations returned. ".$mutateResults->getErrors()->count()." errors found.");
             }
 
-            return $mutateResults;
+            if($mutateResults)
+                return $mutateResults;
+            else
+                return new MutateResultCollection();
         } else {
             throw new BatchJobException("No results were fetched from batch job $batchJob->id .");
         }

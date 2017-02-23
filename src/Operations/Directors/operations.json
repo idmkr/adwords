@@ -1,0 +1,1532 @@
+[
+  {
+    "operand": {
+      "id": "40387839552",
+      "campaignId": 759733856,
+      "campaignName": null,
+      "name": "Cheng Shin-1",
+      "status": "PAUSED",
+      "settings": null,
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "biddingStrategyConfiguration": {
+        "biddingStrategyId": null,
+        "biddingStrategyName": null,
+        "biddingStrategyType": "MANUAL_CPC",
+        "biddingStrategySource": null,
+        "biddingScheme": null,
+        "bids": [
+          {
+            "bid": {
+              "microAmount": 10000,
+              "ComparableValueType": "Money"
+            },
+            "cpcBidSource": "ADGROUP",
+            "BidsType": "CpcBid"
+          }
+        ]
+      },
+      "contentBidCriterionTypeGroup": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null
+    },
+    "operator": "SET",
+    "OperationType": "AdGroup"
+  },
+  {
+    "operand": {
+      "id": "40387894712",
+      "campaignId": 759733856,
+      "campaignName": null,
+      "name": "GoodYear-5",
+      "status": "ENABLED",
+      "settings": null,
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "biddingStrategyConfiguration": {
+        "biddingStrategyId": null,
+        "biddingStrategyName": null,
+        "biddingStrategyType": "MANUAL_CPC",
+        "biddingStrategySource": null,
+        "biddingScheme": null,
+        "bids": [
+          {
+            "bid": {
+              "microAmount": 10000,
+              "ComparableValueType": "Money"
+            },
+            "cpcBidSource": "ADGROUP",
+            "BidsType": "CpcBid"
+          }
+        ]
+      },
+      "contentBidCriterionTypeGroup": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null
+    },
+    "operator": "SET",
+    "OperationType": "AdGroup"
+  },
+  {
+    "operand": {
+      "id": -5,
+      "campaignId": 759733856,
+      "campaignName": null,
+      "name": "toyo-6",
+      "status": "ENABLED",
+      "settings": null,
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "biddingStrategyConfiguration": {
+        "biddingStrategyId": null,
+        "biddingStrategyName": null,
+        "biddingStrategyType": null,
+        "biddingStrategySource": null,
+        "biddingScheme": null,
+        "bids": [
+          {
+            "bid": {
+              "microAmount": 10000,
+              "ComparableValueType": null
+            },
+            "cpcBidSource": null,
+            "BidsType": null
+          }
+        ]
+      },
+      "contentBidCriterionTypeGroup": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null
+    },
+    "operator": "ADD",
+    "OperationType": "AdGroup"
+  },
+  {
+    "operand": {
+      "adGroupId": -5,
+      "ad": {
+        "headlinePart1": "Pneus toyo -50%",
+        "headlinePart2": "Livraison Offerte. Profitez-en",
+        "description": "Meilleur Prix Garantie \u00e0 {=test-20-02-2017_9.pricing_prixFrom} \u20ac. Montage Pneus Chez 4500 Garages Partenaires.",
+        "path1": "Pneus",
+        "path2": "toyo",
+        "id": -6,
+        "url": null,
+        "displayUrl": null,
+        "finalUrls": [
+          "https:\/\/www.centralepneus.fr\/pneu-auto\/toyo\/"
+        ],
+        "finalMobileUrls": null,
+        "finalAppUrls": null,
+        "trackingUrlTemplate": null,
+        "urlCustomParameters": null,
+        "type": null,
+        "devicePreference": null,
+        "AdType": null
+      },
+      "status": null,
+      "approvalStatus": null,
+      "trademarks": null,
+      "disapprovalReasons": null,
+      "trademarkDisapproved": null,
+      "labels": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "forwardCompatibilityMap": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "AdGroupAd"
+  },
+  {
+    "operand": {
+      "adGroupId": -5,
+      "ad": {
+        "headlinePart1": "Pneus toyo -{=test-20-02-2017_9.reductionMax_pourcentage}%",
+        "headlinePart2": "Livraison Offerte. Profitez-en",
+        "description": "Meilleur Prix Garantie. Montage Pneus Chez 4500 Garages Partenaires. d\u00e8s -{=test-20-02-2017_9.reductionMax_pourcentage}%",
+        "path1": "Pneus",
+        "path2": "toyo",
+        "id": -7,
+        "url": null,
+        "displayUrl": null,
+        "finalUrls": [
+          "https:\/\/www.centralepneus.fr\/pneu-auto\/toyo\/"
+        ],
+        "finalMobileUrls": null,
+        "finalAppUrls": null,
+        "trackingUrlTemplate": null,
+        "urlCustomParameters": null,
+        "type": null,
+        "devicePreference": null,
+        "AdType": null
+      },
+      "status": null,
+      "approvalStatus": null,
+      "trademarks": null,
+      "disapprovalReasons": null,
+      "trademarkDisapproved": null,
+      "labels": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "forwardCompatibilityMap": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "AdGroupAd"
+  },
+  {
+    "operand": {
+      "feedId": "47201597",
+      "feedItemId": null,
+      "status": null,
+      "startTime": null,
+      "endTime": null,
+      "attributeValues": [
+        {
+          "feedAttributeId": "1",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "6",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "2",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "toyo",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "3",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "10",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "4",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "https:\/\/www.centralepneus.fr\/pneu-auto\/toyo\/",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "5",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "33,30",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "6",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "\u20ac",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "7",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "1124,12",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "8",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "95",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "9",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "4.34",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "10",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "498",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        }
+      ],
+      "policyData": null,
+      "devicePreference": null,
+      "scheduling": null,
+      "campaignTargeting": null,
+      "adGroupTargeting": {
+        "TargetingAdGroupId": -5
+      },
+      "keywordTargeting": null,
+      "geoTargeting": null,
+      "geoTargetingRestriction": null,
+      "urlCustomParameters": null
+    },
+    "operator": "ADD",
+    "OperationType": "FeedItem"
+  },
+  {
+    "operand": {
+      "adGroupId": -5,
+      "ad": {
+        "headlinePart1": "Pneus toyo -50%",
+        "headlinePart2": "Livraison Offerte. Profitez-en",
+        "description": "Meilleur Prix Garantie. Montage Pneus Chez 4500 Garages Partenaires.",
+        "path1": "Pneus",
+        "path2": "Pas-Cher",
+        "id": -8,
+        "url": null,
+        "displayUrl": null,
+        "finalUrls": [
+          "https:\/\/www.centralepneus.fr\/pneu-auto\/toyo\/"
+        ],
+        "finalMobileUrls": null,
+        "finalAppUrls": null,
+        "trackingUrlTemplate": null,
+        "urlCustomParameters": null,
+        "type": null,
+        "devicePreference": null,
+        "AdType": null
+      },
+      "status": null,
+      "approvalStatus": null,
+      "trademarks": null,
+      "disapprovalReasons": null,
+      "trademarkDisapproved": null,
+      "labels": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "forwardCompatibilityMap": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "AdGroupAd"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "pneus toyo pas cher",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "pneu pas cher toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "pneus pas cher toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "toyo pneu pas cher",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "toyo pneus pas cher",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "achat pneu toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "achat pneus toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "achats pneus toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "acheter pneu toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "acheter pneus toyo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "toyo promo",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "userStatus": null,
+      "systemServingStatus": null,
+      "approvalStatus": null,
+      "disapprovalReasons": null,
+      "destinationUrl": null,
+      "firstPageCpc": null,
+      "topOfPageCpc": null,
+      "firstPositionCpc": null,
+      "qualityInfo": null,
+      "biddingStrategyConfiguration": null,
+      "bidModifier": null,
+      "finalUrls": null,
+      "finalMobileUrls": null,
+      "finalAppUrls": null,
+      "trackingUrlTemplate": null,
+      "urlCustomParameters": null,
+      "adGroupId": -5,
+      "criterionUse": null,
+      "criterion": {
+        "text": "toyo promotion",
+        "matchType": "EXACT",
+        "id": null,
+        "type": null,
+        "CriterionType": null
+      },
+      "labels": null,
+      "forwardCompatibilityMap": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "AdGroupCriterionType": null
+    },
+    "exemptionRequests": null,
+    "operator": "ADD",
+    "OperationType": "BiddableAdGroupCriterion"
+  },
+  {
+    "operand": {
+      "feedId": "47201597",
+      "feedItemId": "11074921209",
+      "status": null,
+      "startTime": null,
+      "endTime": null,
+      "attributeValues": [
+        {
+          "feedAttributeId": "1",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "1",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "2",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "Cheng Shin",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "3",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "10",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "4",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "https:\/\/www.centralepneus.fr\/pneu-auto\/cheng-shin\/",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "5",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "34,70",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "6",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "\u20ac",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "7",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": null,
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "8",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": null,
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "9",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": null,
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "10",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": null,
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        }
+      ],
+      "policyData": null,
+      "devicePreference": null,
+      "scheduling": null,
+      "campaignTargeting": null,
+      "adGroupTargeting": {
+        "TargetingAdGroupId": "40387839552"
+      },
+      "keywordTargeting": null,
+      "geoTargeting": null,
+      "geoTargetingRestriction": null,
+      "urlCustomParameters": null
+    },
+    "operator": "SET",
+    "OperationType": "FeedItem"
+  },
+  {
+    "operand": {
+      "feedId": "47201597",
+      "feedItemId": "11077929032",
+      "status": null,
+      "startTime": null,
+      "endTime": null,
+      "attributeValues": [
+        {
+          "feedAttributeId": "1",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "5",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "2",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "GoodYear",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "3",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "0",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "4",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "https:\/\/www.centralepneus.fr\/pneu-auto\/goodyear\/",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "5",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "33,30",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "6",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "\u20ac",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "7",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "1124,12",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "8",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "95",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "9",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "4.34",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "10",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "498",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        }
+      ],
+      "policyData": null,
+      "devicePreference": null,
+      "scheduling": null,
+      "campaignTargeting": null,
+      "adGroupTargeting": {
+        "TargetingAdGroupId": "40387894712"
+      },
+      "keywordTargeting": null,
+      "geoTargeting": null,
+      "geoTargetingRestriction": null,
+      "urlCustomParameters": null
+    },
+    "operator": "SET",
+    "OperationType": "FeedItem"
+  },
+  {
+    "operand": {
+      "adGroupId": "41676017178",
+      "ad": {
+        "adGroupId": "41676017178",
+        "ad": {
+          "headlinePart1": "Pneus Dunlop -50%",
+          "headlinePart2": "Livraison Offerte. Profitez-en",
+          "description": "Meilleur Prix Garantie. Montage Pneus Chez 4500 Garages Partenaires.",
+          "path1": "Pneus",
+          "path2": "Pas-Cher",
+          "id": "181185176564",
+          "url": null,
+          "displayUrl": null,
+          "finalUrls": [
+            "https:\/\/www.centralepneus.fr\/pneu-auto\/dunlopp\/"
+          ],
+          "finalMobileUrls": null,
+          "finalAppUrls": null,
+          "trackingUrlTemplate": null,
+          "urlCustomParameters": null,
+          "type": "EXPANDED_TEXT_AD",
+          "devicePreference": null,
+          "AdType": "ExpandedTextAd"
+        },
+        "status": "ENABLED",
+        "approvalStatus": "FAMILY_SAFE",
+        "trademarks": null,
+        "disapprovalReasons": null,
+        "trademarkDisapproved": false,
+        "labels": null,
+        "baseCampaignId": null,
+        "baseAdGroupId": null,
+        "forwardCompatibilityMap": null
+      },
+      "status": null,
+      "approvalStatus": null,
+      "trademarks": null,
+      "disapprovalReasons": null,
+      "trademarkDisapproved": null,
+      "labels": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "forwardCompatibilityMap": null
+    },
+    "exemptionRequests": null,
+    "operator": "SET",
+    "OperationType": "AdGroupAd"
+  },
+  {
+    "operand": {
+      "adGroupId": "41676017178",
+      "ad": {
+        "adGroupId": "41676017178",
+        "ad": {
+          "headlinePart1": "Pneus Dunlop -50%",
+          "headlinePart2": "Livraison Offerte. Profitez-en",
+          "description": "Meilleur Prix Garantie \u00e0 {=test-20-02-2017_9.pricing_prixFrom} \u20ac. Montage Pneus Chez 4500 Garages Partenaires.",
+          "path1": "Pneus",
+          "path2": "Dunlop",
+          "id": "181199578797",
+          "url": null,
+          "displayUrl": null,
+          "finalUrls": [
+            "https:\/\/www.centralepneus.fr\/pneu-auto\/dunlopp\/"
+          ],
+          "finalMobileUrls": null,
+          "finalAppUrls": null,
+          "trackingUrlTemplate": null,
+          "urlCustomParameters": null,
+          "type": "EXPANDED_TEXT_AD",
+          "devicePreference": null,
+          "AdType": "ExpandedTextAd"
+        },
+        "status": "ENABLED",
+        "approvalStatus": "FAMILY_SAFE",
+        "trademarks": null,
+        "disapprovalReasons": null,
+        "trademarkDisapproved": false,
+        "labels": null,
+        "baseCampaignId": null,
+        "baseAdGroupId": null,
+        "forwardCompatibilityMap": null
+      },
+      "status": null,
+      "approvalStatus": null,
+      "trademarks": null,
+      "disapprovalReasons": null,
+      "trademarkDisapproved": null,
+      "labels": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "forwardCompatibilityMap": null
+    },
+    "exemptionRequests": null,
+    "operator": "SET",
+    "OperationType": "AdGroupAd"
+  },
+  {
+    "operand": {
+      "adGroupId": "41676017178",
+      "ad": {
+        "adGroupId": "41676017178",
+        "ad": {
+          "headlinePart1": "Pneus Dunlop -{=test-20-02-2017_9.reductionMax_pourcentage}%",
+          "headlinePart2": "Livraison Offerte. Profitez-en",
+          "description": "Meilleur Prix Garantie. Montage Pneus Chez 4500 Garages Partenaires. d\u00e8s -{=test-20-02-2017_9.reductionMax_pourcentage}%",
+          "path1": "Pneus",
+          "path2": "Dunlop",
+          "id": "181199578920",
+          "url": null,
+          "displayUrl": null,
+          "finalUrls": [
+            "https:\/\/www.centralepneus.fr\/pneu-auto\/dunlopp\/"
+          ],
+          "finalMobileUrls": null,
+          "finalAppUrls": null,
+          "trackingUrlTemplate": null,
+          "urlCustomParameters": null,
+          "type": "EXPANDED_TEXT_AD",
+          "devicePreference": null,
+          "AdType": "ExpandedTextAd"
+        },
+        "status": "ENABLED",
+        "approvalStatus": "FAMILY_SAFE",
+        "trademarks": null,
+        "disapprovalReasons": null,
+        "trademarkDisapproved": false,
+        "labels": null,
+        "baseCampaignId": null,
+        "baseAdGroupId": null,
+        "forwardCompatibilityMap": null
+      },
+      "status": null,
+      "approvalStatus": null,
+      "trademarks": null,
+      "disapprovalReasons": null,
+      "trademarkDisapproved": null,
+      "labels": null,
+      "baseCampaignId": null,
+      "baseAdGroupId": null,
+      "forwardCompatibilityMap": null
+    },
+    "exemptionRequests": null,
+    "operator": "SET",
+    "OperationType": "AdGroupAd"
+  },
+  {
+    "operand": {
+      "feedId": "47201597",
+      "feedItemId": "11079293785",
+      "status": null,
+      "startTime": null,
+      "endTime": null,
+      "attributeValues": [
+        {
+          "feedAttributeId": "1",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "2",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "2",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "Dunlop",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "3",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "45457",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "4",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "https:\/\/www.centralepneus.fr\/pneu-auto\/dunlopp\/",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "5",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "49,04",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "6",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "\u20ac",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "7",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "89,64",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "8",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "90",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "9",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "4.36",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "10",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "145",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        }
+      ],
+      "policyData": null,
+      "devicePreference": null,
+      "scheduling": null,
+      "campaignTargeting": null,
+      "adGroupTargeting": {
+        "TargetingAdGroupId": "41676017178"
+      },
+      "keywordTargeting": null,
+      "geoTargeting": null,
+      "geoTargetingRestriction": null,
+      "urlCustomParameters": null
+    },
+    "operator": "SET",
+    "OperationType": "FeedItem"
+  },
+  {
+    "operand": {
+      "feedId": "47201597",
+      "feedItemId": "11079278053",
+      "status": null,
+      "startTime": null,
+      "endTime": null,
+      "attributeValues": [
+        {
+          "feedAttributeId": "1",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "4",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "2",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "Michelin",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "3",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "10",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "4",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "https:\/\/www.centralepneus.fr\/pneu-auto\/michelin\/",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "5",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "44,70",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "6",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "\u20ac",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "7",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "1129,12",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "8",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "94",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "9",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "4.44",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        },
+        {
+          "feedAttributeId": "10",
+          "integerValue": null,
+          "doubleValue": null,
+          "booleanValue": null,
+          "stringValue": "448",
+          "integerValues": null,
+          "doubleValues": null,
+          "booleanValues": null,
+          "stringValues": null,
+          "moneyWithCurrencyValue": null
+        }
+      ],
+      "policyData": null,
+      "devicePreference": null,
+      "scheduling": null,
+      "campaignTargeting": null,
+      "adGroupTargeting": {
+        "TargetingAdGroupId": "41676017218"
+      },
+      "keywordTargeting": null,
+      "geoTargeting": null,
+      "geoTargetingRestriction": null,
+      "urlCustomParameters": null
+    },
+    "operator": "SET",
+    "OperationType": "FeedItem"
+  }
+]
