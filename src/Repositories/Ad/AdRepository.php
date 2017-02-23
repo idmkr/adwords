@@ -41,6 +41,20 @@ class AdRepository extends AdwordsRepository
         $adGroupAd->adGroupId = $adGroup->id;
         $adGroupAd->ad = $expandedTextAd;
 
+        return $this->buildAdGroupAdOperation($adGroupAd, $operator);
+	}
+
+	/**
+	 * Creates text ads that use ad customizations for the specified ad group IDs.
+	 *
+	 * @param AdGroupAd     $adGroupAd
+	 * @param mixed     $operator
+	 *
+	 * @return AdGroupAdOperation
+	 *
+	 */
+	public function buildAdGroupAdOperation($adGroupAd, $operator = 'ADD')
+    {
         if(isset($adGroupAdData["enabled"])) {
             $adGroupAd->status = $adGroupAdData["enabled"] == 1 ? "ENABLED" : "PAUSED";
         }
@@ -80,7 +94,7 @@ class AdRepository extends AdwordsRepository
         return new AdGroupAdCollection(
             $this->get($adwordsUser,
                 // Select
-                ["AdGroupId", "HeadlinePart1","HeadlinePart2", "Description", "Path1", "Path2","CreativeFinalUrls"],
+                ["Id","AdGroupId", "HeadlinePart1","HeadlinePart2", "Description", "Path1", "Path2","CreativeFinalUrls"],
                 // Where
                 [
                     new \Predicate("BaseCampaignId", "EQUALS", $campaign_id),
