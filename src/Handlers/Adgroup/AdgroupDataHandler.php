@@ -27,6 +27,9 @@ class AdgroupDataHandler extends DataHandler
 			$this->requireService("Util/TempIdGenerator", false);
 			$adGroup->id = TempIdGenerator::Generate();
 		}
+		else {
+			$adGroup->id = $data["id"];
+		}
 
 		$biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 		$bid = new CpcBid();
