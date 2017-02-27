@@ -28,6 +28,7 @@ abstract class Builder
     public function setLogLevel($logLevel)
     {
         $this->logLevel = $logLevel;
+        return $this;
     }
 
     /**

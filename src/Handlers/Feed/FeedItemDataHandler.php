@@ -23,21 +23,39 @@ class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInte
 	 */
 	public function prepareArray(array $data) : FeedItem
 	{
-		$attributeValues = (new Collection($data))->values()->map(function ($attr, $i){
-			// Create the FeedItemAttributeValues for our text values.
-			$attributeValue = new FeedItemAttributeValue();
-			$attributeValue->feedAttributeId = $this->feed->feedAttributes[$i]->id;
-			$attributeValue->stringValue = $attr;
-
-			return $attributeValue;
-		})->toArray();
-
 		// Create the feed item and operation.
 		$item = new FeedItem();
 		$item->feedId = $this->feed->feedId;
-		$item->attributeValues = $attributeValues;
+		$item->attributeValues = $this->getAttributesValues($data);
 
 		return $item;
+	}
+
+	public function getAttributesValues(array $data)
+    {
+        return (new Collection($data))->values()->map(function ($attr, $i){
+            // Create the FeedItemAttributeValues for our text values.
+            $attributeValue = new FeedItemAttributeValue();
+            $attributeValue->feedAttributeId = $this->feed->feedAttributes[$i]->id;
+
+            $attr = str_replace(',','.',trim($attr));
+
+            // is it a number ?
+            if(!preg_match('/[%€]/', $attr) && is_numeric($attr) && floatval($attr)) {
+                $attributeValue->doubleValue = $attr;
+            }
+            else {
+                // Is it a zero equivalent value ?
+                if(preg_match("/^0*\s?[,.]?\s?0*\s?[%€]?$/", $attr)) {
+                    $attr = 'NULL';
+                }
+
+                $attributeValue->stringValue = $attr;
+            }
+
+
+            return $attributeValue;
+        })->toArray();
 	}
 
 	/**
@@ -55,7 +73,7 @@ class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInte
 		$attrValues = collect($feedItem->attributeValues)->keyBy(function (\FeedItemAttributeValue $feedItemAttributeValue) {
 			return $feedItemAttributeValue->feedAttributeId;
 		})->map(function (\FeedItemAttributeValue $feedItemAttributeValue) {
-			return $feedItemAttributeValue->stringValue;
+			return $feedItemAttributeValue->stringValue ?: $feedItemAttributeValue->doubleValue;
 		});
 
 		$attrs = [];
