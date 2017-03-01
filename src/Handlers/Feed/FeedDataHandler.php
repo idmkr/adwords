@@ -10,4 +10,5 @@ class FeedDataHandler extends DataHandler implements FeedDataHandlerInterface
    {
 	   return $data;
    }
+
 }

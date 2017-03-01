@@ -40,7 +40,7 @@ class MutateResultCollection extends AdwordsCollection
      *
      * @param string $type
      *
-     * @return array
+     * @return mixed
      */
     public function getResults($type = null) : Collection
     {
@@ -188,5 +188,14 @@ class MutateResultCollection extends AdwordsCollection
             }
         }
         return $policyErrors;
+    }
+
+
+    function getAdGroupByName(){
+        $adGroupByName = [];
+        foreach($this->getResults('AdGroup') as $adGroup) {
+            $adGroupByName[$adGroup->name] = $adGroup;
+        }
+        return $adGroupByName;
     }
 }

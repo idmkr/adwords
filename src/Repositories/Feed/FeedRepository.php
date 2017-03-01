@@ -130,7 +130,7 @@ class FeedRepository extends AdwordsRepository
         $attributes = [];
 
         foreach($feedAttributes as $attribute) {
-            $attributes[] = $this->buildCustomizerFeedAttribute($attribute, 'STRING');
+            $attributes[] = $this->buildCustomizerFeedAttribute($attribute);
         }
 
         $customizerFeed = new AdCustomizerFeed();
@@ -147,7 +147,7 @@ class FeedRepository extends AdwordsRepository
         $result = $adCustomizerFeedService->mutate($operations);
         $addedFeed = $result->value[0];
 
-        // Add the feed mapping
+        // Add the feed mapping ?!
         //$this->createFeedMappingPlaceholder($user, $addedFeed);
 
         return $addedFeed;
@@ -195,11 +195,11 @@ class FeedRepository extends AdwordsRepository
         return $attribute;
     }
 
-    private function buildCustomizerFeedAttribute($name, $type)
+    private function buildCustomizerFeedAttribute($attr)
     {
         $attribute = new AdCustomizerFeedAttribute();
-        $attribute->name = $name;
-        $attribute->type = $type;
+        $attribute->name = $attr["name"];
+        $attribute->type = $attr["type"];
 
         return $attribute;
     }
@@ -225,7 +225,7 @@ class FeedRepository extends AdwordsRepository
 
         $operation = new FeedItemOperation();
         $operation->operator = $operator;
-        $operation->operand = $this->getItemDataHandler()->prepare($feedItem);
+        $operation->operand = $feedItem;
 
         return $operation;
     }

@@ -1,14 +1,18 @@
 <?php namespace Idmkr\Adwords\Handlers\Feed;
 
 use AdCustomizerFeed;
+use AdCustomizerFeedAttribute;
+use FeedAttribute;
 use FeedItem;
 use FeedItemAttributeValue;
 use Idmkr\Adwords\Handlers\DataHandler;
 use Illuminate\Support\Collection;
+use Money;
+use MoneyWithCurrency;
 
 class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInterface
 {
-
+    /** @var AdCustomizerFeed */
     public $feed;
 
     public function __construct(AdCustomizerFeed $feed)
@@ -33,29 +37,54 @@ class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInte
 
 	public function getAttributesValues(array $data)
     {
-        return (new Collection($data))->values()->map(function ($attr, $i){
+        $attributesValues = [];
+        $feedAttributesById = $this->getFeedAttributesById();
+
+        foreach(array_values($data) as $i => $value){
+            // The data index will serve as the ID, because we know
+            // The same logic was used to create the feed
+            $feedAttribute = $feedAttributesById[$i+1];
+
             // Create the FeedItemAttributeValues for our text values.
             $attributeValue = new FeedItemAttributeValue();
-            $attributeValue->feedAttributeId = $this->feed->feedAttributes[$i]->id;
+            $attributeValue->feedAttributeId = $feedAttribute->id;
 
-            $attr = str_replace(',','.',trim($attr));
+            $value = str_replace(',','.',trim($value));
+            $type = $feedAttribute->type;
 
-            // is it a number ?
-            if(!preg_match('/[%€]/', $attr) && is_numeric($attr) && floatval($attr)) {
-                $attributeValue->doubleValue = $attr;
-            }
-            else {
-                // Is it a zero equivalent value ?
-                if(preg_match("/^0*\s?[,.]?\s?0*\s?[%€]?$/", $attr)) {
-                    $attr = 'NULL';
+            // is it a price ? Is it not a zero equivalent value ?
+            if($type == 'PRICE' && floatval($value)) {
+                // Money Type is not saved, i dont know why
+                // IF USED, DONT FORGET TO MAP THE PROPERTY FOR DIFF ( see AdGroupDataHandler )
+                /*$money = new Money();
+                $money->microAmount = $value * $this->microAmountFactor;
+
+                $moneyWithCurrencyValue = new MoneyWithCurrency();
+                $moneyWithCurrencyValue->money = $money;
+                $moneyWithCurrencyValue->currencyCode = 'EUR';
+
+                $attributeValue->moneyWithCurrencyValue = $moneyWithCurrencyValue;*/
+
+                if(strpos($value, '€') === false) {
+                    $value = trim($value).' €';
                 }
 
-                $attributeValue->stringValue = $attr;
+                $attributeValue->stringValue = $value;
+            }
+            // is it a whole number ? Is it not a zero equivalent value ?
+            else if($type == 'INTEGER' && intval($value)) {
+                $attributeValue->integerValue = intval($value);
+            }
+            // its a string. Is it not a zero equivalent value ?
+            else if(!preg_match("/^0*\s?[,.]?\s?0*\s?[%€]?$/", $value)) {
+                $attributeValue->stringValue = $value;
             }
 
-
-            return $attributeValue;
-        })->toArray();
+            // The attribute will be empty if the value was zero equivalent.
+            // This way the feed item will not be used for the ad
+            $attributesValues[] = $attributeValue;
+        }
+        return $attributesValues;
 	}
 
 	/**
@@ -65,15 +94,13 @@ class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInte
 	 */
 	public function getItemAttributes($feedItem) : array
 	{
-		$attrNames = collect($this->feed->feedAttributes)->keyBy(function (\AdCustomizerFeedAttribute $feedAttribute) {
-			return $feedAttribute->id;
-		})->map(function (\AdCustomizerFeedAttribute $feedAttribute) {
+		$attrNames = $this->getFeedAttributesById()->map(function (AdCustomizerFeedAttribute $feedAttribute) {
 			return $feedAttribute->name;
 		});
-		$attrValues = collect($feedItem->attributeValues)->keyBy(function (\FeedItemAttributeValue $feedItemAttributeValue) {
+		$attrValues = collect($feedItem->attributeValues)->keyBy(function (FeedItemAttributeValue $feedItemAttributeValue) {
 			return $feedItemAttributeValue->feedAttributeId;
-		})->map(function (\FeedItemAttributeValue $feedItemAttributeValue) {
-			return $feedItemAttributeValue->stringValue ?: $feedItemAttributeValue->doubleValue;
+		})->map(function (FeedItemAttributeValue $feedItemAttributeValue) {
+			return $feedItemAttributeValue->stringValue ?: $feedItemAttributeValue->integerValue;
 		});
 
 		$attrs = [];
@@ -99,4 +126,19 @@ class FeedItemDataHandler extends DataHandler implements FeedItemDataHandlerInte
 
 		return $default;
 	}
+
+    public function attributeTypeIsNumber($attr)
+    {
+        return !preg_match('/[%€]/', $attr) && is_numeric($attr);
+    }
+
+    /**
+     * @return AdCustomizerFeedAttribute[]
+     */
+    private function getFeedAttributesById()
+    {
+        return collect($this->feed->feedAttributes)->keyBy(function (AdCustomizerFeedAttribute $feedAttribute) {
+            return $feedAttribute->id;
+        });
+    }
 }
