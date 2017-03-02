@@ -125,9 +125,9 @@ class BatchOperationsDirector implements DirectorInterface
     public function execute($blueprint) : Array
     {
         $commits = [];
+        printf("Executing blueprint ".class_basename($blueprint)."\n");
         $pipelines =  $blueprint->execute($this);
 
-        printf("Executing blueprint ".class_basename($blueprint)."\n");
         printf("\nBuilding operation commits. Pipelines : ".count($pipelines)."\n");
         foreach ($pipelines as $i => $pipeline) {
             foreach($pipeline->getCommits() as $commit) {
@@ -239,7 +239,10 @@ class BatchOperationsDirector implements DirectorInterface
             $this->updateState('download.success', ['status' => 'DONE']);
 
             if($mutateResults) {
-                $this->log((count($mutateResults)) . " operations returned. ".$mutateResults->getErrors()->count()." errors found.");
+                $errors = $mutateResults->getErrors();
+                $this->log((count($mutateResults)) . " operations returned. ".$errors->count()." errors found.");
+                
+                
             }
 
             if($mutateResults)
