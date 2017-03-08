@@ -146,30 +146,32 @@ class MutateResultCollection extends AdwordsCollection
             foreach($errors as $error) {
                 // Now check for PolicyViolationError
                 if ($error instanceof \PolicyViolationError) {
+                    // Instantiate here as we test the null value
                     if(!$trademarkPayload) {
                         $trademarkPayload = ["errors" => []];
+                    }
 
-                        if(!empty($operations)) {
-                            $operand = $operations[$operationIndex]->operand;
-                            $operationType = $operations[$operationIndex]->OperationType;
+                    if(!empty($operations)) {
+                        $operand = $operations[$operationIndex]->operand;
+                        $operationType = $operations[$operationIndex]->OperationType;
 
-                            if(!$wantedOperationType || $operationType == $wantedOperationType) {
-                                if ($operationType == 'AdGroupAd') {
-                                    $trademarkPayload['AdGroupAd'] = $operand->ad;
-                                }
-                                else if ($operationType = 'BiddableAdGroupCriterion') {
-                                    $trademarkPayload['BiddableAdGroupCriterion'] = $operand->criterion;
-                                }
-                                else {
-                                    throw new \Exception('Unhandled error type : '.class_basename($operand));
-                                }
+                        if(!$wantedOperationType || $operationType == $wantedOperationType) {
+                            if ($operationType == 'AdGroupAd') {
+                                $trademarkPayload['AdGroupAd'] = $operand->ad;
                             }
-                            // We do not want this error
+                            else if ($operationType = 'BiddableAdGroupCriterion') {
+                                $trademarkPayload['BiddableAdGroupCriterion'] = $operand->criterion;
+                            }
                             else {
-                                break;
+                                throw new \Exception('Unhandled error type : '.class_basename($operand));
                             }
                         }
+                        // We do not want this error
+                        else {
+                            break;
+                        }
                     }
+
                     $fieldPaths = explode('.', $error->fieldPath);
                     $trademarkPayload["errors"][] = [
                         "field" => array_pop($fieldPaths),
@@ -182,20 +184,27 @@ class MutateResultCollection extends AdwordsCollection
             // Some fields contains policy errors
             if ($trademarkPayload) {
                 $policyErrors[$operationIndex] = $trademarkPayload;
-                if (!$operations) {
-                    break;
-                }
             }
         }
         return $policyErrors;
     }
 
-
-    function getAdGroupByName(){
-        $adGroupByName = [];
-        foreach($this->getResults('AdGroup') as $adGroup) {
-            $adGroupByName[$adGroup->name] = $adGroup;
+    /**
+     *
+     * @return MutateResultCollection
+     */
+    public function havingPolicyViolationErrors()
+    {
+        $policyErrors = [];
+        foreach($this->getErrors() as $operationIndex => $errors) {
+            /** @var \PolicyViolationError $error */
+            foreach($errors as $error) {
+                // Now check for PolicyViolationError
+                if ($error instanceof \PolicyViolationError) {
+                    $policyErrors[$operationIndex] = $this->get($operationIndex);
+                }
+            }
         }
-        return $adGroupByName;
+        return new static($policyErrors);
     }
 }

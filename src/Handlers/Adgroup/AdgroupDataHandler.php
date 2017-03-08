@@ -17,6 +17,20 @@ class AdgroupDataHandler extends DataHandler
 		$this->requireService('AdGroupService');
 	}
 
+	public function prepareString(string $id) : AdGroup
+	{
+		return $this->prepareInt((int)$id);
+
+	}
+
+	public function prepareInt(int $id) : AdGroup
+	{
+		$adGroup = new AdGroup;
+		$adGroup->id = $id;
+
+		return $adGroup;
+	}
+
 	public function prepareArray(array $data) : AdGroup
 	{
         

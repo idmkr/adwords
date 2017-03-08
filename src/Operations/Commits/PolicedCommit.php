@@ -3,7 +3,7 @@
 class PolicedCommit extends Commit
 {
     protected $policyViolationRules = "";
-    public $adGroup;
+    public $adGroupId;
 
     public function addPolicyViolationRules($rules)
     {
@@ -18,7 +18,7 @@ class PolicedCommit extends Commit
 
     public function setAdGroup(\AdGroup $adGroup)
     {
-        $this->adGroup = $adGroup;
+        $this->adGroupId = $adGroup;
         return $this;
     }
 }
