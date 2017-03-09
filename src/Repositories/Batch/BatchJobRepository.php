@@ -109,7 +109,7 @@ class BatchJobRepository extends AdwordsRepository implements BatchJobRepository
             }
 
             $pollAttempts++;
-            $sleepSeconds *=  1.5;
+            $sleepSeconds =  min($sleepSeconds*1.5, 180);
         } while ($isPending && $pollAttempts <= $maxPollAttempts);
 
         if ($isPending) {
