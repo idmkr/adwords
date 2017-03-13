@@ -89,7 +89,7 @@ class BatchJobRepository extends AdwordsRepository implements BatchJobRepository
         // Poll for completion of the batch job using an exponential back off.
         $pollAttempts = 0;
         $isPending = true;
-        $maxPollAttempts = 60;
+        $maxPollAttempts = 30;
 
         do {
             echo "Sleeping $sleepSeconds seconds...";

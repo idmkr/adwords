@@ -172,7 +172,7 @@ class BatchOperationsDirector implements DirectorInterface
                 ]);
 
                 //TO DO : effacer quand adwords-synced est terminé
-                $this->storeOperations($batchJob->id, $operations);
+                //$this->storeOperations($batchJob->id, $operations);
 
                 printf("\nUploaded %d operations for batch job with ID %d.\n",
                     $operations_count, $batchJob->id);
@@ -232,6 +232,10 @@ class BatchOperationsDirector implements DirectorInterface
         }
 
         if ($batchJob->downloadUrl !== null && $batchJob->downloadUrl->url !== null) {
+            $this->updateState('download.results', [
+                'status' => 'SAVING',
+            ]);
+            
             $xmlResponse = $this->adwordsBatchs->downloadResults($batchJob, $uploadUrl);
             $this->storeResults($batchJobId, $xmlResponse);
             $mutateResults = $this->adwordsBatchs->convertXMLToObjectCollection($xmlResponse);
