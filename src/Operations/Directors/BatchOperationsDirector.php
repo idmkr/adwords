@@ -167,6 +167,7 @@ class BatchOperationsDirector implements DirectorInterface
 
                 $this->updateState('upload.success', [
                     'status' => 'POLLING',
+                    'adwords_client_customer_id' => $this->adwordsUser->GetClientCustomerId(),
                     'adwords_batch_job_id' => $batchJob->id,
                     'uploadUrl' => $batchJob->uploadUrl->url
                 ]);
@@ -232,10 +233,10 @@ class BatchOperationsDirector implements DirectorInterface
         }
 
         if ($batchJob->downloadUrl !== null && $batchJob->downloadUrl->url !== null) {
-            $this->updateState('download.results', [
+            $this->updateState('download.saving', [
                 'status' => 'SAVING',
             ]);
-            
+
             $xmlResponse = $this->adwordsBatchs->downloadResults($batchJob, $uploadUrl);
             $this->storeResults($batchJobId, $xmlResponse);
             $mutateResults = $this->adwordsBatchs->convertXMLToObjectCollection($xmlResponse);
@@ -244,9 +245,8 @@ class BatchOperationsDirector implements DirectorInterface
 
             if($mutateResults) {
                 $errors = $mutateResults->getErrors();
-                $this->log((count($mutateResults)) . " operations returned. ".$errors->count()." errors found.");
-                
-                
+                $this->log(count($mutateResults) . " operations returned. ".$errors->count()." errors found.");
+                $this->updateState('download.success', ['errors' => $errors->count()]);
             }
 
             if($mutateResults)
