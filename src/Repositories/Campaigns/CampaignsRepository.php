@@ -90,7 +90,7 @@ class CampaignsRepository extends AdwordsRepository
      *
      * @return Campaign|null
      */
-    public function find(AdWordsUser $user, $campaignId, $everyField = false) : Campaign
+    public function find(AdWordsUser $user, $campaignId, $everyField = false)
     {
         return $this->container['cache']->rememberForever('idmkr.adwords.campaigns.'.$campaignId, function() use($user, $everyField, $campaignId) {
             if ($everyField) {
@@ -99,7 +99,9 @@ class CampaignsRepository extends AdwordsRepository
                 $fields = ["Name", "Id", "Status"];
             }
 
-            return $this->get($user, $fields, $campaignId)[0];
+            $campaigns = $this->get($user, $fields, $campaignId);
+
+            return empty($campaigns) ? null : $campaigns[0];
         });
     }
 
