@@ -65,13 +65,13 @@ class MutateResultCollection extends AdwordsCollection
      */
     public function getErrors() : Collection
     {
-        $objects = [];
-        $this->each(function (\MutateResult $mutateResult) use (&$objects) {
+        $errors = [];
+        $this->each(function (\MutateResult $mutateResult) use (&$errors) {
             if ($mutateResult->errorList) {
-                $objects[$mutateResult->index] = $this->extractErrors($mutateResult);
+                $errors[$mutateResult->index] = $this->extractErrors($mutateResult);
             }
         });
-        return new Collection($objects);
+        return new Collection($errors);
     }
 
     /**
@@ -137,7 +137,7 @@ class MutateResultCollection extends AdwordsCollection
      *
      * @return array
      */
-    public function getPolicyViolationErrors(Array $operations, $wantedOperationType = null)
+    public function getPolicyViolationErrors(Array $commits, $wantedOperationType = null)
     {
         $policyErrors = [];
         foreach($this->getErrors() as $operationIndex => $errors) {
@@ -151,9 +151,9 @@ class MutateResultCollection extends AdwordsCollection
                         $trademarkPayload = ["errors" => []];
                     }
 
-                    if(!empty($operations)) {
-                        $operand = $operations[$operationIndex]->operand;
-                        $operationType = $operations[$operationIndex]->OperationType;
+                    if(!empty($commits)) {
+                        $operand = $commits[$operationIndex]->operation->operand;
+                        $operationType = class_basename($operand);
 
                         if(!$wantedOperationType || $operationType == $wantedOperationType) {
                             if ($operationType == 'AdGroupAd') {
