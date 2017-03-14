@@ -167,7 +167,6 @@ class BatchOperationsDirector implements DirectorInterface
 
                 $this->updateState('upload.success', [
                     'status' => 'POLLING',
-                    'adwords_client_customer_id' => $this->adwordsUser->GetClientCustomerId(),
                     'adwords_batch_job_id' => $batchJob->id,
                     'uploadUrl' => $batchJob->uploadUrl->url
                 ]);
