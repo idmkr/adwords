@@ -1,6 +1,7 @@
 <?php namespace Idmkr\Adwords\Collections;
 
 use Idmkr\Adwords\Handlers\MutateResult\MutateResultDataHandler;
+use Idmkr\Adwords\Operations\Commits\Commit;
 use Illuminate\Support\Collection;
 use stdClass;
 
@@ -154,7 +155,7 @@ class MutateResultCollection extends AdwordsCollection
 
                     if(!empty($operations) && isset($operations[$operationIndex])) {
                         $operation = $operations[$operationIndex];
-                        if(is_a($operation, 'Commit')) {
+                        if(is_a($operation, Commit::class)) {
                             $operation = $operation->operation;
                         }
                         $operand = $operation->operand;
