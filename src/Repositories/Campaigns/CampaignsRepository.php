@@ -47,7 +47,7 @@ class CampaignsRepository extends AdwordsRepository
     public function findAll(AdWordsUser $user) : CampaignCollection
 	{
         // Log every SOAP XML request and response.
-        $user->LogAll();
+        //$user->LogAll();
 
         /** @var CampaignService $campaignService */
         $campaignService = $user->GetService('CampaignService', 'v201609');

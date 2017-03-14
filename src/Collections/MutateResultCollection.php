@@ -2,6 +2,7 @@
 
 use Idmkr\Adwords\Handlers\MutateResult\MutateResultDataHandler;
 use Illuminate\Support\Collection;
+use stdClass;
 
 
 /**
@@ -137,7 +138,7 @@ class MutateResultCollection extends AdwordsCollection
      *
      * @return array
      */
-    public function getPolicyViolationErrors(Array $commits, $wantedOperationType = null)
+    public function getPolicyViolationErrors(Array $operations, $wantedOperationType = null)
     {
         $policyErrors = [];
         foreach($this->getErrors() as $operationIndex => $errors) {
@@ -151,9 +152,18 @@ class MutateResultCollection extends AdwordsCollection
                         $trademarkPayload = ["errors" => []];
                     }
 
-                    if(!empty($commits)) {
-                        $operand = $commits[$operationIndex]->operation->operand;
-                        $operationType = class_basename($operand);
+                    if(!empty($operations) && isset($operations[$operationIndex])) {
+                        $operation = $operations[$operationIndex];
+                        if(is_a($operation, 'Commit')) {
+                            $operation = $operation->operation;
+                        }
+                        $operand = $operation->operand;
+                        if($operand instanceof stdClass) {
+                            $operationType = $operation->OperationType;
+                        }
+                        else {
+                            $operationType = class_basename($operand);
+                        }
 
                         if(!$wantedOperationType || $operationType == $wantedOperationType) {
                             if ($operationType == 'AdGroupAd') {
