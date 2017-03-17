@@ -4,6 +4,7 @@ class PolicedCommit extends Commit
 {
     protected $policyViolationRules = "";
     public $adGroupName;
+    public $validAdGroupAdWithTrademarksReplacement;
 
     public function addPolicyViolationRules($rules)
     {
