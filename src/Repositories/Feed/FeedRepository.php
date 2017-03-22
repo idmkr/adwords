@@ -100,7 +100,7 @@ class FeedRepository extends AdwordsRepository
             $this->getAdwordsApiVersion());
 
         $selector = new \Selector(
-            ["FeedItemId","Status","AttributeValues"],
+            ["FeedItemId","Status","AttributeValues", "TargetingAdGroupId"],
             [
                 new \Predicate("FeedId", "EQUALS", $feed->feedId),
                 new \Predicate("Status", "EQUALS", 'ENABLED'),

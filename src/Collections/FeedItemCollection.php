@@ -45,7 +45,7 @@ class FeedItemCollection extends AdwordsCollection
         foreach($this->all() as $item) {
             $attributes = $this->dataHandler->getItemAttributes($item);
             if(is_callable($key)) {
-               $keyed[$key($attributes)] = $item;
+               $keyed[$key($attributes, $item)] = $item;
             }
             else {
 
