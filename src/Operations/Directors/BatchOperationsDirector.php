@@ -172,7 +172,7 @@ class BatchOperationsDirector implements DirectorInterface
                 ]);
 
                 //TO DO : effacer quand adwords-synced est terminé
-                $this->storeOperations($batchJob->id, $operations);
+                ///$this->storeOperations($batchJob->id, $operations);
 
                 printf("\nUploaded %d operations for batch job with ID %d.\n",
                     $operations_count, $batchJob->id);
@@ -328,7 +328,7 @@ class BatchOperationsDirector implements DirectorInterface
      * @param $file
      * @param $contents
      */
-    private function storeBatchJobFile($batchJobId, $file, $contents)
+    protected function storeBatchJobFile($batchJobId, $file, $contents)
     {
         Storage::put("adwords_batch_jobs/$batchJobId/$file", $contents, 'private');
     }
