@@ -2,6 +2,7 @@
 
 use Exception;
 use Idmkr\Adwords\Operations\Commits\Commit;
+use Illuminate\Database\Eloquent\Model;
 use Operation;
 
 abstract class DataHandler
@@ -23,6 +24,9 @@ abstract class DataHandler
     {
         if(method_exists($this, 'prepareArray') && is_array($data)) {
             return $this->prepareArray($data);
+        }
+        else if(method_exists($this, 'prepareModel') && is_a($data, Model::class)) {
+            return $this->prepareModel($data);
         }
         else if(method_exists($this, 'prepareString') && is_string($data)) {
             return $this->prepareString($data);

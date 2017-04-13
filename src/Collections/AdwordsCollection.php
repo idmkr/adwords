@@ -39,8 +39,8 @@ abstract class AdwordsCollection extends Collection
     protected function parseItems($items)
     {
         $parsed = [];
-        foreach($items as $item) {
-            $parsed[] = $this->parseItem($item);
+        foreach($items as $key => $item) {
+            $parsed[$key] = $this->parseItem($item);
         }
         return $parsed;
     }

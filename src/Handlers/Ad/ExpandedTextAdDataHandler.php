@@ -50,4 +50,24 @@ class ExpandedTextAdDataHandler extends DataHandler
 
 		return $expandedTextAd;
 	}
+
+	/**
+	 * build an ExpandedTextAd
+	 *
+	 * @param array $data the attributes
+	 */
+	public function prepareModel($data) : ExpandedTextAd
+	{
+		$expandedTextAd = new ExpandedTextAd();
+
+		$expandedTextAd->id = $data["adwords_id"];
+		$expandedTextAd->headlinePart1 = $data["headlinePart1"];
+		$expandedTextAd->headlinePart2 = $data["headlinePart2"];
+		$expandedTextAd->path1 = $data["path1"];
+		$expandedTextAd->path2 = $data["path2"];
+		$expandedTextAd->description = $data["description"];
+		$expandedTextAd->finalUrls = $data["finalUrls"];
+
+		return $expandedTextAd;
+	}
 }

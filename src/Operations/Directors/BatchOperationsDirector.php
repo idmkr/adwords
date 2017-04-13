@@ -171,8 +171,7 @@ class BatchOperationsDirector implements DirectorInterface
                     'uploadUrl' => $batchJob->uploadUrl->url
                 ]);
 
-                //TO DO : effacer quand adwords-synced est terminé
-                ///$this->storeOperations($batchJob->id, $operations);
+                $this->storeData($batchJob->id);
 
                 printf("\nUploaded %d operations for batch job with ID %d.\n",
                     $operations_count, $batchJob->id);
@@ -305,13 +304,9 @@ class BatchOperationsDirector implements DirectorInterface
      * @param $batchJobId
      * @param $operations
      */
-    protected function storeOperations($batchJobId, $operations)
+    protected function storeData($batchJobId)
     {
-        /** @var Operation $operation */
-        foreach($operations as $operation) {
-            $operation->OperationType = class_basename($operation->operand);
-        }
-        $this->storeBatchJobFile($batchJobId, 'operations.json', json_encode($operations));
+        $this->storeBatchJobFile($batchJobId, 'data.json', json_encode($this->getData()));
     }
 
     /**

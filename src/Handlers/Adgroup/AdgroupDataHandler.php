@@ -60,6 +60,25 @@ class AdgroupDataHandler extends DataHandler
 		return $adGroup;
 	}
 
+	public function prepareModel($data) : AdGroup
+	{
+		$adGroup = new AdGroup();
+        $adGroup->id = $data["adwords_id"];
+		$adGroup->name = $data["name"];
+		$adGroup->status = $data["status"];
+		$adGroup->campaignId = $data["campaignId"];
+		$adGroup->campaignName = $data["campaignName"];
+
+		$biddingStrategyConfiguration = new BiddingStrategyConfiguration();
+		$bid = new CpcBid();
+		$bid->bid = new Money($data["biddingStrategyConfiguration"]->bids[0]->bid->microAmount);
+		$biddingStrategyConfiguration->bids[] = $bid;
+
+		$adGroup->biddingStrategyConfiguration = $biddingStrategyConfiguration;
+
+		return $adGroup;
+	}
+
 	public function getPropertiesMap()
 	{
 		return [

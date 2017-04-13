@@ -23,6 +23,7 @@ class AdServiceProvider extends ServiceProvider {
 
 		// Register the data handler
 		$this->bindIf('idmkr.adwords.ad.handler.data', 'Idmkr\Adwords\Handlers\Ad\AdDataHandler');
+		$this->bindIf('idmkr.adwords.adgroupad.handler.data', 'Idmkr\Adwords\Handlers\Ad\AdGroupAdDataHandler');
 		$this->bindIf('idmkr.adwords.expandedtextad.handler.data', 'Idmkr\Adwords\Handlers\Ad\ExpandedTextAdDataHandler');
 
 		// Register the event handler
