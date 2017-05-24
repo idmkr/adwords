@@ -35,7 +35,7 @@ class AdgroupRepository extends AdwordsRepository
      *
      * @return AdGroupOperation
      */
-    public function     buildCampaignOperation(\Campaign $campaign, $adGroup, $operator = 'ADD')
+    public function buildCampaignOperation(\Campaign $campaign, $adGroup, $operator = 'ADD')
     {
         $adGroup = $this->getDataHandler()->prepare($adGroup);
         $adGroup->campaignId = $campaign->id;

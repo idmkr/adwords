@@ -37,6 +37,9 @@ class BatchOperationsDirector implements DirectorInterface
     /** @var  BatchJobRepository */
     protected $adwordsBatchs;
 
+    /** @var  int */
+    public $logLevel = 1;
+
     public function __construct(AdWordsUser $adwordsUser, Array $data)
     {
         $this->adwordsUser = $adwordsUser;
@@ -125,10 +128,10 @@ class BatchOperationsDirector implements DirectorInterface
     public function execute($blueprint) : Array
     {
         $commits = [];
-        printf("Executing blueprint ".class_basename($blueprint)."\n");
+        $this->log("Executing blueprint ".class_basename($blueprint));
         $pipelines =  $blueprint->execute($this);
 
-        printf("\nBuilding operation commits. Pipelines : ".count($pipelines)."\n");
+        $this->log("Building operation commits. Pipelines : ".count($pipelines), 2);
         foreach ($pipelines as $i => $pipeline) {
             foreach($pipeline->getCommits() as $commit) {
                 $commits[] = $commit;
@@ -157,12 +160,12 @@ class BatchOperationsDirector implements DirectorInterface
 
             // Nothing to upload
             if (!$operations_count) {
-                printf("Nothing to upload. Aborting.");
+                $this->log("Nothing to upload. Aborting.");
                 $this->updateState('upload.abort', ['status' => 'EMPTY']);
             }
             // Business is up
             else {
-                printf("Uploading %d operations\n", $operations_count);
+                $this->log("Uploading $operations_count operations.");
                 $batchJob = $this->adwordsBatchs->uploadOperations($this->adwordsUser, $operations);
 
                 $this->updateState('upload.success', [
@@ -173,8 +176,7 @@ class BatchOperationsDirector implements DirectorInterface
 
                 $this->storeData($batchJob->id);
 
-                printf("\nUploaded %d operations for batch job with ID %d.\n",
-                    $operations_count, $batchJob->id);
+                $this->log("Uploaded $operations_count operations for batch job with ID $batchJob->id.", 2);
 
                 // Calculating the ideal sleep seconds delay
                 $sleepSeconds = min(60, max(30, round($operations_count/300)));
@@ -236,6 +238,14 @@ class BatchOperationsDirector implements DirectorInterface
             ]);
 
             $xmlResponse = $this->adwordsBatchs->downloadResults($batchJob, $uploadUrl);
+
+            if($xmlResponse === null) {
+                $this->log("No results available for download.", 2);
+            }
+            else {
+                $this->log("Downloaded results from ".$batchJob->downloadUrl->url, 2);
+            }
+
             $this->storeResults($batchJobId, $xmlResponse);
             $mutateResults = $this->adwordsBatchs->convertXMLToObjectCollection($xmlResponse);
 
@@ -331,9 +341,9 @@ class BatchOperationsDirector implements DirectorInterface
     /**
      * @param $string
      */
-    public function log($string)
+    public function log($string, $level = 1)
     {
-        if(\App::runningInConsole()) {
+        if(\App::runningInConsole() && $level <= $this->logLevel) {
             echo $string . "\n";
         }
         else if(request()->get("test") == 1) {

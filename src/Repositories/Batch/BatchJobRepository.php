@@ -132,11 +132,9 @@ class BatchJobRepository extends AdwordsRepository implements BatchJobRepository
             $batchJobUtils = new BatchJobUtils($uploadUrl);
 
             $xmlResponse = $batchJobUtils->DownloadBatchJobResults($batchJob->downloadUrl->url);
-            printf("Downloaded results from %s:\n", $batchJob->downloadUrl->url);
 
             return $xmlResponse;
         } else {
-            printf("No results available for download.\n");
             return null;
         }
     }

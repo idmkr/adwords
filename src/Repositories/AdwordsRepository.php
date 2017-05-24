@@ -1,5 +1,6 @@
 <?php namespace Idmkr\Adwords\Repositories;
 
+use AdWordsConstants;
 use Budget;
 use BudgetOperation;
 use Idmkr\Adwords\Handlers\Adgroup\AdgroupDataHandler;
@@ -47,7 +48,7 @@ abstract class AdwordsRepository
      */
     abstract protected function getDataHandler();
 
-    /**
+    /*
      * AdwordsRepository constructor.
      *
      * @param Container $app
@@ -134,18 +135,35 @@ abstract class AdwordsRepository
             $predicate = new \Predicate("Id", "EQUALS", $predicate);
         }
 
-        $selector = new \Selector($fields, $predicate);
+        // Create paging controls.
+        $offset = 0;
+        $entries = [];
 
-        if($orderBy) {
-           $selector->ordering = $orderBy;
-        }
+        do {
+            $selector = new \Selector($fields, $predicate);
 
-        /** @var \Page $page */
-        $page = $service->get($selector);
+            if($orderBy) {
+                $selector->ordering = $orderBy;
+            }
 
-        if(!$page->totalNumEntries)
-            return [];
-        return $page->entries;
+
+            $selector->paging = new \Paging($offset, AdWordsConstants::RECOMMENDED_PAGE_SIZE);
+
+            /** @var \Page $page */
+            $page = $service->get($selector);
+
+            // Display results.
+            if (isset($page->entries)) {
+                foreach ($page->entries as $entry) {
+                    $entries[] = $entry;
+                }
+            }
+
+            // Advance the paging offset.
+            $offset += AdWordsConstants::RECOMMENDED_PAGE_SIZE;
+        } while ($page->totalNumEntries > $offset);
+
+        return $entries;
     }
 
     /**
